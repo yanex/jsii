@@ -3,11 +3,12 @@ import { FileSource, isErrorDiagnostic, LiteralSource, printDiagnostics,
   renderTree, translateMarkdown, TranslateResult, translateTypeScript } from '../lib';
 import { PythonVisitor } from '../lib/languages/python';
 import { VisualizeAstVisitor } from '../lib/languages/visualize';
+import { extractSnippets } from '../lib/extract';
 
 async function main() {
   const argv = yargs
     .usage('$0 <cmd> [args]')
-    .command('snippet [file]', 'Translate a single snippet', command => command
+    .command('snippet FILE', 'Translate a single snippet', command => command
         .positional('file', { type: 'string', describe: 'The file to translate (leave out for stdin)' })
         .option('python', { alias: 'p', boolean: true, description: 'Translate snippets to Python' })
     , async args => {
@@ -16,7 +17,7 @@ async function main() {
         makeVisitor(args));
       renderResult(result);
     })
-    .command('markdown <file>', 'Translate a MarkDown file', command => command
+    .command('markdown FILE', 'Translate a MarkDown file', command => command
         .positional('file', { type: 'string', describe: 'The file to translate (leave out for stdin)' })
         .option('python', { alias: 'p', boolean: true, description: 'Translate snippets to Python' })
     , async args => {
@@ -24,7 +25,12 @@ async function main() {
         await makeFileSource(args.file || '-', 'stdin.md'),
         makeVisitor(args));
       renderResult(result);
-      return 5;
+    })
+    .command('extract <ASSEMBLY..>', 'Extract code snippets from an assembly into a sample tablets', command => command
+      .positional('assembly', { type: 'string', describe: 'Assembly or directory to extract from' })
+      .option('output', { alias: 'o', type: 'string', describe: 'Output directory where to store the sample tablets' })
+    , async args => {
+      await extractSnippets(args._, args.output);
     })
     .demandCommand()
     .help()

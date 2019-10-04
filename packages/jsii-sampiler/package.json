@@ -27,6 +27,7 @@
     "commonmark": "^0.29.0",
     "fs-extra": "^8.1.0",
     "typescript": "~3.6.2",
+    "jsii-spec": "^0.18.0",
     "yargs": "^14.0.0"
   },
   "jest": {

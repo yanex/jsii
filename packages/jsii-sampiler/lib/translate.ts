@@ -71,10 +71,15 @@ export function translateMarkdown(markdown: Source, visitor: AstHandler<any>, op
   return { tree: new OTree([translatedMarkdown]), diagnostics };
 }
 
-export type TranslateOptions = ConvertOptions;
+export interface TranslateOptions extends ConvertOptions {
+  /**
+   * Re-use the given compiler if given
+   */
+  readonly compiler?: TypeScriptCompiler;
+}
 
 export function translateTypeScript(source: Source, visitor: AstHandler<any>, options: TranslateOptions = {}): TranslateResult {
-  const compiler = new TypeScriptCompiler();
+  const compiler = options.compiler || new TypeScriptCompiler();
 
   return translateSnippet(source, compiler, visitor, options);
 }

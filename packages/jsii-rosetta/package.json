@@ -1,10 +1,10 @@
 {
-  "name": "jsii-sampiler",
+  "name": "jsii-rosetta",
   "version": "0.18.0",
   "description": "Translate TypeScript code snippets to other languages",
   "main": "lib/index.js",
   "bin": {
-    "jsii-sampiler": "bin/jsii-sampiler"
+    "jsii-rosetta": "bin/jsii-rosetta"
   },
   "scripts": {
     "build": "tsc --build",
@@ -51,7 +51,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/aws/jsii.git",
-    "directory": "packages/jsii-sampiler"
+    "directory": "packages/jsii-rosetta"
   },
   "engines": {
     "node": ">= 10.3.0"

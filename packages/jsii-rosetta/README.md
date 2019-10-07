@@ -1,4 +1,4 @@
-# jsii-sampiler: a transpiler for code samples
+# jsii-rosetta: a transpiler for code samples
 
 Utility to transcribe example code snippets from TypeScript to other
 jsii languages.
@@ -8,7 +8,7 @@ translations. Only supports a limited set of TypeScript language features.
 
 ## Compilability
 
-The sampiler can translate both code that completely compiles and typechecks,
+The translator can translate both code that completely compiles and typechecks,
 as well as code that doesn't.
 
 In case of non-compiling samples the translations will be based off of

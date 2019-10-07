@@ -25,12 +25,17 @@ export interface TabletSchema {
   snippets: {[key: string]: SnippetSchema};
 }
 
+export const ORIGINAL_SNIPPET_KEY = '$';
+
 /**
  * Schema for a snippet
  */
 export interface SnippetSchema {
   /**
    * Translations for each individual language
+   *
+   * Since TypeScript is a valid output translation, the original will be
+   * listed under the key '$'.
    */
   translations: {[key: string]: TranslationSchema};
 }

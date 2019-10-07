@@ -15,7 +15,7 @@ export async function saveTablet(tablet: TabletSchema, filename: string) {
   await fs.writeJson(filename, tablet, { encoding: 'utf-8' });
 }
 
-export async function loadTable(filename: string): Promise<TabletSchema> {
+export async function loadTablet(filename: string): Promise<TabletSchema> {
   const obj = await fs.readJson(filename, { encoding: 'utf-8' });
 
   if (!obj.toolVersion || !obj.snippets) {

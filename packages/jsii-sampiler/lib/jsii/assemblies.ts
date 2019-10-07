@@ -66,6 +66,23 @@ export function allSnippetSources(assembly: spec.Assembly): AssemblySnippetSourc
     if (!docs) { return; }
 
     if (docs.remarks) { ret.push({ 'type': 'markdown', markdown: docs.remarks, where }); }
-    if (docs.example) { ret.push({ 'type': 'literal', source: docs.example, where: `${where}-example` }); }
+    if (docs.example && exampleLooksLikeSource(docs.example)) {
+      ret.push({ 'type': 'literal', source: docs.example, where: `${where}-example` });
+    }
   }
 }
+
+/**
+ * See if the given source text looks like a code sample
+ *
+ * Many @examples for properties are examples of values (ARNs, formatted strings)
+ * not code samples, which should not be translated
+ *
+ * If the value contains whitespace (newline, space) then we'll assume it's a code
+ * sample.
+ */
+function exampleLooksLikeSource(text: string) {
+  return !!text.trim().match(WHITESPACE);
+}
+
+const WHITESPACE = new RegExp('\\s');

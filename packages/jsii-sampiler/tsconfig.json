@@ -24,5 +24,8 @@
   ],
   "exclude": [
     "examples"
+  ],
+  "references": [
+      { "path": "../jsii-spec" }
   ]
 }

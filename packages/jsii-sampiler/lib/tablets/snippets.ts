@@ -18,11 +18,18 @@ export function extractTypescriptSnippetsFromMarkdown(markdown: string, wherePre
     if (block.language.startsWith('typescript') || block.language.startsWith('ts')) {
       ret.push({
         source: block.source,
-        where: `${wherePrefix}snippet${ret.length + 1 }`
+        where: addSnippetNumber(wherePrefix, ret.length + 1),
       });
     }
     return block;
   }));
 
   return ret;
+}
+
+function addSnippetNumber(prefix: string, snippetNumber: number) {
+  // First snippet (most cases) will not be numbered
+  if (snippetNumber === 1) { return prefix; }
+
+  return `${prefix}-snippet${snippetNumber}`;
 }

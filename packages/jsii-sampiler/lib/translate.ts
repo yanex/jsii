@@ -5,7 +5,7 @@ import { transformMarkdown } from './markdown/markdown';
 import { MarkdownRenderer } from './markdown/markdown-renderer';
 import { ReplaceCodeTransform } from './markdown/replace-code-renderer';
 import { OTree, renderTree } from './o-tree';
-import { TypeScriptCompiler } from './typescript/ts-compiler';
+import { TypeScriptCompiler, CompilationResult } from './typescript/ts-compiler';
 import { inTempDir } from './util';
 
 export interface Source {
@@ -52,7 +52,8 @@ export function translateMarkdown(markdown: Source, visitor: AstHandler<any>, op
   const compiler = new TypeScriptCompiler();
 
   let index = 0;
-  const diagnostics = new Array<ts.Diagnostic>();
+  const translateDiagnostics = new Array<ts.Diagnostic>();
+  const compileDiagnostics = new Array<ts.Diagnostic>();
 
   const translatedMarkdown = markdown.withContents((filename, contents) => {
     return transformMarkdown(contents, new MarkdownRenderer(), new ReplaceCodeTransform(code => {
@@ -60,15 +61,16 @@ export function translateMarkdown(markdown: Source, visitor: AstHandler<any>, op
 
       index += 1;
       const snippetSource = new LiteralSource(code.source, `${filename}-snippet${index}.ts`);
-      const snippetTranslation = translateSnippet(snippetSource, compiler, visitor, options);
+      const snippetTranslation = translateSnippet(snippetSource, visitor, { ...options, compiler });
 
-      diagnostics.push(...snippetTranslation.diagnostics);
+      translateDiagnostics.push(...snippetTranslation.translateDiagnostics);
+      compileDiagnostics.push(...snippetTranslation.compileDiagnostics);
 
       return { language: options.languageIdentifier || '', source: renderTree(snippetTranslation.tree) + '\n' };
     }));
   });
 
-  return { tree: new OTree([translatedMarkdown]), diagnostics };
+  return { tree: new OTree([translatedMarkdown]), translateDiagnostics, compileDiagnostics };
 }
 
 export interface TranslateOptions extends ConvertOptions {
@@ -76,26 +78,30 @@ export interface TranslateOptions extends ConvertOptions {
    * Re-use the given compiler if given
    */
   readonly compiler?: TypeScriptCompiler;
+
+  /**
+   * Include compiler errors in return diagnostics
+   *
+   * If false, only translation diagnostics will be returned.
+   *
+   * @default false
+   */
+  readonly includeCompilerDiagnostics?: boolean;
 }
 
 export function translateTypeScript(source: Source, visitor: AstHandler<any>, options: TranslateOptions = {}): TranslateResult {
-  const compiler = options.compiler || new TypeScriptCompiler();
-
-  return translateSnippet(source, compiler, visitor, options);
+  return translateSnippet(source, visitor, options);
 }
 
-function translateSnippet(source: Source, compiler: TypeScriptCompiler, visitor: AstHandler<any>, options: TranslateOptions = {}): TranslateResult {
-  return source.withContents((filename, contents) => {
-    const result = compiler.compileInMemory(filename, contents);
+function translateSnippet(source: Source, visitor: AstHandler<any>, options: TranslateOptions = {}): TranslateResult {
+  const translator = new SnippetTranslator(source, options);
+  const translated = translator.translateUsing(visitor);
 
-    const converter = new AstConverter(result.rootFile, result.program.getTypeChecker(), visitor, options);
-    const converted = converter.convert(result.rootFile);
-
-    return {
-      tree: converted,
-      diagnostics: converter.diagnostics
-    };
-  });
+  return {
+    tree: translated,
+    translateDiagnostics: translator.translateDiagnostics,
+    compileDiagnostics: translator.compileDiagnostics
+  };
 }
 
 export function printDiagnostics(diags: ts.Diagnostic[], stream: NodeJS.WritableStream) {
@@ -119,5 +125,39 @@ export function isErrorDiagnostic(diag: ts.Diagnostic) {
 
 export interface TranslateResult {
   tree: OTree;
-  diagnostics: ts.Diagnostic[];
+  translateDiagnostics: ts.Diagnostic[];
+  compileDiagnostics: ts.Diagnostic[];
+}
+
+/**
+ * Multiple conversion of the same snippet
+ */
+export class SnippetTranslator {
+  public readonly translateDiagnostics: ts.Diagnostic[] = [];
+  public readonly compileDiagnostics: ts.Diagnostic[] = [];
+  private compilation!: CompilationResult;
+
+  constructor(source: Source, private readonly options: TranslateOptions = {}) {
+    const compiler = options.compiler || new TypeScriptCompiler();
+    source.withContents((filename, contents) => {
+      this.compilation = compiler.compileInMemory(filename, contents);
+    });
+
+    // This makes it about 5x slower, so only do it on demand
+    if (options.includeCompilerDiagnostics) {
+      const program = this.compilation.program;
+      this.compileDiagnostics.push(...program.getGlobalDiagnostics(), ...program.getSyntacticDiagnostics(), ...program.getDeclarationDiagnostics(), ...program.getSemanticDiagnostics());
+    }
+  }
+
+  public translateUsing(visitor: AstHandler<any>) {
+    const converter = new AstConverter(this.compilation.rootFile, this.compilation.program.getTypeChecker(), visitor, this.options);
+    const converted = converter.convert(this.compilation.rootFile);
+    this.translateDiagnostics.push(...converter.diagnostics);
+    return converted;
+  }
+
+  public get diagnostics() {
+    return [...this.compileDiagnostics, ...this.translateDiagnostics];
+  }
 }

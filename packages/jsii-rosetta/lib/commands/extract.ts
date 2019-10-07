@@ -1,14 +1,12 @@
 import { loadAssemblies, allSnippetSources, LoadedAssembly } from '../jsii/assemblies';
 import logging = require('../logging');
-import { snippetKey } from '../tablets/key';
-import { TARGET_LANGUAGES } from '../languages';
+import { TARGET_LANGUAGES, TargetLanguage } from '../languages';
 import { TypeScriptCompiler } from '../typescript/ts-compiler';
 import { LiteralSource, SnippetTranslator } from '../translate';
 import { renderTree } from '../o-tree';
-import { SnippetSchema } from '../tablets/schema';
 import ts = require('typescript');
 import { TypeScriptSnippet, extractTypescriptSnippetsFromMarkdown } from '../tablets/snippets';
-import { saveTablet, newTablet } from '../tablets/tablets';
+import { LanguageTablet, Snippet } from '../tablets/tablets';
 
 export interface ExtractResult {
   diagnostics: ts.Diagnostic[];
@@ -23,23 +21,23 @@ export async function extractSnippets(assemblyLocations: string[], outputFile: s
 
   const translator = new Translator(includeCompilerDiagnostics);
 
-  const tablet = newTablet();
+  const tablet = new LanguageTablet();
 
   logging.info(`Translating`);
   const startTime = Date.now();
 
-  let snippetCount = 0;
   for (const block of allTypeScriptCodeBlocks(assemblies)) {
-    const key = snippetKey(block);
-    logging.debug(`Translating ${key}`);
-    tablet.snippets[key] = translator.translateSnippet(block);
-    snippetCount++;
+    const snippet = Snippet.fromSource(block.source);
+    logging.debug(`Translating ${snippet.key}`);
+    translator.addTranslations(snippet, block.where);
+
+    tablet.addSnippet(snippet);
   }
 
   const delta =  (Date.now() - startTime) / 1000;
-  logging.info(`Converted ${snippetCount} snippets in ${delta} seconds (${(delta / snippetCount).toPrecision(3)}s/snippet)`);
+  logging.info(`Converted ${tablet.count} snippets in ${delta} seconds (${(delta / tablet.count).toPrecision(3)}s/snippet)`);
   logging.info(`Saving language tablet to ${outputFile}`);
-  await saveTablet(tablet, outputFile);
+  await tablet.save(outputFile);
 
   return { diagnostics: translator.diagnostics };
 }
@@ -69,24 +67,18 @@ class Translator {
   constructor(private readonly includeCompilerDiagnostics: boolean) {
   }
 
-  public translateSnippet(snippet: TypeScriptSnippet) {
-    const ret: SnippetSchema = { translations: {} };
-
-    ret.translations.$ = { source: snippet.source };
-
-    const translator = new SnippetTranslator(new LiteralSource(snippet.source, snippet.where), {
+  public addTranslations(snippet: Snippet, where: string) {
+    const translator = new SnippetTranslator(new LiteralSource(snippet.originalSource, where), {
       compiler: this.compiler,
       includeCompilerDiagnostics: this.includeCompilerDiagnostics,
     });
 
     for (const [lang, languageConverterFactory] of Object.entries(TARGET_LANGUAGES)) {
       const translated = translator.translateUsing(languageConverterFactory());
-      ret.translations[lang] = { source: renderTree(translated) };
+      snippet.addTranslation(lang as TargetLanguage, renderTree(translated));
     }
 
     this.diagnostics.push(...translator.diagnostics);
-
-    return ret;
   }
 }
 

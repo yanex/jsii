@@ -1,11 +1,12 @@
-import { loadTablet } from "../tablets/tablets";
-import { ORIGINAL_SNIPPET_KEY, SnippetSchema, TranslationSchema } from "../tablets/schema";
+import { LanguageTablet, Snippet } from "../tablets/tablets";
+import { TargetLanguage } from "../languages";
 
 export async function readTablet(tabletFile: string, key?: string, lang?: string) {
-  const tab = await loadTablet(tabletFile);
+  const tab = new LanguageTablet();
+  await tab.load(tabletFile);
 
   if (key !== undefined) {
-    const snippet = tab.snippets[key];
+    const snippet = tab.getSnippet(key);
     if (snippet === undefined) {
       throw new Error(`No such snippet: ${key}`);
     }
@@ -15,18 +16,18 @@ export async function readTablet(tabletFile: string, key?: string, lang?: string
   }
 
   function listSnippets() {
-    for (const [key, snippet] of Object.entries(tab.snippets)) {
+    for (const key of tab.snippetKeys) {
       process.stdout.write(snippetHeader(key) + '\n');
-      displaySnippet(snippet);
+      displaySnippet(tab.getSnippet(key)!);
       process.stdout.write('\n');
     }
   }
 
-  function displaySnippet(snippet: SnippetSchema) {
+  function displaySnippet(snippet: Snippet) {
     if (lang !== undefined) {
-      const translation = snippet.translations[lang];
+      const translation = snippet.get(lang as TargetLanguage);
       if (translation === undefined) {
-        throw new Error(`No translation for ${lang} in this snippet`);
+        throw new Error(`No translation for ${lang} in snippet ${snippet.key}`);
       }
       displayTranslation(translation);
     } else {
@@ -34,21 +35,20 @@ export async function readTablet(tabletFile: string, key?: string, lang?: string
     }
   }
 
-  function listTranslations(snippet: SnippetSchema) {
-    const original = snippet.translations[ORIGINAL_SNIPPET_KEY];
+  function listTranslations(snippet: Snippet) {
+    const original = snippet.originalSource;
     if (original !== undefined) {
       displayTranslation(original);
     }
 
-    for (const [lang, translation] of Object.entries(snippet.translations)) {
-      if (lang === ORIGINAL_SNIPPET_KEY) { continue; }
+    for (const lang of snippet.languages) {
       process.stdout.write(languageHeader(lang) + '\n');
-      displayTranslation(translation);
+      displayTranslation(snippet.get(lang)!);
     }
   }
 
-  function displayTranslation(translation: TranslationSchema) {
-    process.stdout.write(translation.source + '\n');
+  function displayTranslation(translation: string) {
+    process.stdout.write(translation + '\n');
   }
 }
 

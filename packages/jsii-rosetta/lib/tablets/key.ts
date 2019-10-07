@@ -1,11 +1,10 @@
 import crypto = require('crypto');
-import { TypeScriptSnippet } from './snippets';
 
 /**
  * Determine the key for a code block
  */
-export function snippetKey(codeblock: TypeScriptSnippet) {
+export function snippetKey(source: string) {
   const h = crypto.createHash('sha256');
-  h.update(codeblock.source);
+  h.update(source);
   return h.digest('hex');
 }

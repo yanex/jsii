@@ -58,7 +58,7 @@
   "references": [
     { "path": "../jsii-spec" },
     { "path": "../codemaker" },
-    { "path": "../jsii-sampiler" },
+    { "path": "../jsii-rosetta" },
     { "path": "../jsii-reflect" }
   ]
 }

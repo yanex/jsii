@@ -1,6 +1,6 @@
 import yargs = require('yargs');
 import { FileSource, isErrorDiagnostic, LiteralSource, printDiagnostics,
-  renderTree, translateMarkdown, TranslateResult, translateTypeScript } from '../lib';
+  renderTree, translateMarkdown, TranslateResult, translateTypeScript, DEFAULT_TABLET_NAME } from '../lib';
 import { PythonVisitor } from '../lib/languages/python';
 import { VisualizeAstVisitor } from '../lib/languages/visualize';
 import { extractSnippets } from '../lib/commands/extract';
@@ -36,9 +36,9 @@ async function main() {
         makeVisitor(args));
       renderResult(result);
     }))
-    .command('extract <ASSEMBLY..>', 'Extract code snippets from one or more assemblies into a language tablets', command => command
+    .command('extract [ASSEMBLY..]', 'Extract code snippets from one or more assemblies into a language tablets', command => command
       .positional('ASSEMBLY', { type: 'string', string: true, default: new Array<string>(), describe: 'Assembly or directory to extract from' })
-      .option('output', { alias: 'o', type: 'string', describe: 'Output file where to store the sample tablets', default: 'jsii.ltab' })
+      .option('output', { alias: 'o', type: 'string', describe: 'Output file where to store the sample tablets', default: DEFAULT_TABLET_NAME })
       .option('must-compile', { alias: 'c', type: 'boolean', describe: 'Include compiler diagnostics', default: false })
       .option('directory', { alias: 'd', type: 'string', describe: 'Working directory (for require() etc)' })
       .option('fail', { alias: 'f', type: 'boolean', describe: 'Fail if there are compilation errors', default: true })
@@ -48,7 +48,7 @@ async function main() {
       // chdir, since underneath the in-memory layer we're using a regular TS
       // compilerhost. Have to make all file references absolute before we chdir
       // though.
-      const absAssemblies = args.ASSEMBLY.map(x => path.resolve(x));
+      const absAssemblies = (args.ASSEMBLY.length > 0 ? args.ASSEMBLY : ['.']).map(x => path.resolve(x));
       const absOutput = path.resolve(args.output);
       if (args.directory) {
         process.chdir(args.directory);

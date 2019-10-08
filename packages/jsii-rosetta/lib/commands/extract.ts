@@ -1,12 +1,9 @@
-import { loadAssemblies, allSnippetSources, LoadedAssembly } from '../jsii/assemblies';
+import { loadAssemblies, allTypeScriptSnippets } from '../jsii/assemblies';
 import logging = require('../logging');
-import { TARGET_LANGUAGES, TargetLanguage } from '../languages';
-import { TypeScriptCompiler } from '../typescript/ts-compiler';
-import { LiteralSource, SnippetTranslator } from '../translate';
-import { renderTree } from '../o-tree';
 import ts = require('typescript');
-import { TypeScriptSnippet, extractTypescriptSnippetsFromMarkdown } from '../tablets/snippets';
-import { LanguageTablet, Snippet } from '../tablets/tablets';
+import { LanguageTablet } from '../tablets/tablets';
+import { Translator } from '../translate';
+import { snippetKey } from '../tablets/key';
 
 export interface ExtractResult {
   diagnostics: ts.Diagnostic[];
@@ -26,12 +23,9 @@ export async function extractSnippets(assemblyLocations: string[], outputFile: s
   logging.info(`Translating`);
   const startTime = Date.now();
 
-  for (const block of allTypeScriptCodeBlocks(assemblies)) {
-    const snippet = Snippet.fromSource(block.source);
-    logging.debug(`Translating ${snippet.key}`);
-    translator.addTranslations(snippet, block.where);
-
-    tablet.addSnippet(snippet);
+  for (const block of allTypeScriptSnippets(assemblies)) {
+    logging.debug(`Translating ${snippetKey(block.source)}`);
+    tablet.addSnippet(translator.translate(block));
   }
 
   const delta =  (Date.now() - startTime) / 1000;
@@ -41,44 +35,3 @@ export async function extractSnippets(assemblyLocations: string[], outputFile: s
 
   return { diagnostics: translator.diagnostics };
 }
-
-
-function* allTypeScriptCodeBlocks(assemblies: LoadedAssembly[]): IterableIterator<TypeScriptSnippet> {
-  for (const assembly of assemblies) {
-    for (const source of allSnippetSources(assembly.assembly)) {
-      switch (source.type) {
-        case 'literal':
-          yield { source: source.source, where: source.where };
-          break;
-        case 'markdown':
-          yield* extractTypescriptSnippetsFromMarkdown(source.markdown, source.where);
-      }
-    }
-  }
-}
-
-/**
- * Hold some state across all translations
- */
-class Translator {
-  private readonly compiler = new TypeScriptCompiler();
-  public readonly diagnostics: ts.Diagnostic[] = [];
-
-  constructor(private readonly includeCompilerDiagnostics: boolean) {
-  }
-
-  public addTranslations(snippet: Snippet, where: string) {
-    const translator = new SnippetTranslator(new LiteralSource(snippet.originalSource, where), {
-      compiler: this.compiler,
-      includeCompilerDiagnostics: this.includeCompilerDiagnostics,
-    });
-
-    for (const [lang, languageConverterFactory] of Object.entries(TARGET_LANGUAGES)) {
-      const translated = translator.translateUsing(languageConverterFactory());
-      snippet.addTranslation(lang as TargetLanguage, renderTree(translated));
-    }
-
-    this.diagnostics.push(...translator.diagnostics);
-  }
-}
-

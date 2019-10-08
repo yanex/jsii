@@ -38,6 +38,18 @@ export interface SnippetSchema {
    * listed under the key '$'.
    */
   translations: {[key: string]: TranslationSchema};
+
+  /**
+   * A human-readable description of the location this code snippet was found
+   */
+  where: string;
+
+  /**
+   * Whether this was compiled without errors
+   *
+   * Undefined means no compilation was not attempted.
+   */
+  didCompile?: boolean;
 }
 
 /**

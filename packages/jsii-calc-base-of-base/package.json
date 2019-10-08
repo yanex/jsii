@@ -24,11 +24,12 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "build": "jsii",
+    "build": "jsii && jsii-rosetta extract",
     "test": "diff-test test/assembly.jsii .jsii"
   },
   "devDependencies": {
     "jsii": "^0.18.0",
+    "jsii-rosetta": "^0.18.0",
     "jsii-build-tools": "file:../jsii-build-tools"
   },
   "jsii": {

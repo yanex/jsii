@@ -1,6 +1,7 @@
 import spec = require('jsii-spec');
 import fs = require('fs-extra');
 import path = require('path');
+import { TypeScriptSnippet, extractTypescriptSnippetsFromMarkdown } from '../tablets/snippets';
 
 export interface LoadedAssembly {
   assembly: spec.Assembly;
@@ -68,6 +69,20 @@ export function allSnippetSources(assembly: spec.Assembly): AssemblySnippetSourc
     if (docs.remarks) { ret.push({ 'type': 'markdown', markdown: docs.remarks, where }); }
     if (docs.example && exampleLooksLikeSource(docs.example)) {
       ret.push({ 'type': 'literal', source: docs.example, where: `${where}-example` });
+    }
+  }
+}
+
+export function* allTypeScriptSnippets(assemblies: Array<{ assembly: spec.Assembly }>): IterableIterator<TypeScriptSnippet> {
+  for (const assembly of assemblies) {
+    for (const source of allSnippetSources(assembly.assembly)) {
+      switch (source.type) {
+        case 'literal':
+          yield { source: source.source, where: source.where };
+          break;
+        case 'markdown':
+          yield* extractTypescriptSnippetsFromMarkdown(source.markdown, source.where);
+      }
     }
   }
 }

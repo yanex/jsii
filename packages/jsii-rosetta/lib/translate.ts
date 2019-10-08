@@ -7,6 +7,9 @@ import { ReplaceCodeTransform } from './markdown/replace-code-renderer';
 import { OTree, renderTree } from './o-tree';
 import { TypeScriptCompiler, CompilationResult } from './typescript/ts-compiler';
 import { inTempDir } from './util';
+import { TypeScriptSnippet } from './tablets/snippets';
+import { Snippet } from './tablets/tablets';
+import { TARGET_LANGUAGES, TargetLanguage } from './languages';
 
 export interface Source {
   withFile<A>(fn: (fileName: string) => A): A;
@@ -121,6 +124,61 @@ export function printDiagnostic(diag: ts.Diagnostic, stream: NodeJS.WritableStre
 
 export function isErrorDiagnostic(diag: ts.Diagnostic) {
   return diag.category === ts.DiagnosticCategory.Error;
+}
+
+/**
+ * Hold some state across all translations
+ */
+export class Translator {
+  private readonly compiler = new TypeScriptCompiler();
+  private readonly translators: Record<string, SnippetTranslator> = {};
+
+  constructor(private readonly includeCompilerDiagnostics: boolean) {
+  }
+
+  public translate(block: TypeScriptSnippet, languages = Object.keys(TARGET_LANGUAGES) as TargetLanguage[]) {
+    const translator = this.translatorFor(block.source, block.where);
+
+    const snippet = Snippet.fromSource(block, this.includeCompilerDiagnostics ? translator.compileDiagnostics.length === 0 : undefined);
+
+    for (const lang of languages) {
+      this.addTranslationFor(snippet, lang);
+    }
+
+    return snippet;
+  }
+
+  public addTranslationFor(snippet: Snippet, language: TargetLanguage) {
+    const translator = this.translatorFor(snippet.originalSource.source, snippet.where);
+    const languageConverterFactory = TARGET_LANGUAGES[language];
+    const translated = renderTree(translator.translateUsing(languageConverterFactory()));
+    return snippet.addTranslatedSource(language, translated);
+  }
+
+  public get diagnostics(): ts.Diagnostic[] {
+    const ret = [];
+    for (const t of Object.values(this.translators)) {
+      ret.push(...t.diagnostics);
+    }
+    return ret;
+  }
+
+
+  private translatorFor(source: string, where: string) {
+    const key = source + '-' + where;
+    if (!(key in this.translators)) {
+      const translator = new SnippetTranslator(new LiteralSource(source, where), {
+        compiler: this.compiler,
+        includeCompilerDiagnostics: this.includeCompilerDiagnostics,
+      });
+
+      this.diagnostics.push(...translator.compileDiagnostics);
+
+      this.translators[key] = translator;
+    }
+
+    return this.translators[key];
+  }
 }
 
 export interface TranslateResult {

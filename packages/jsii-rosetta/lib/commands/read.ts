@@ -1,4 +1,4 @@
-import { LanguageTablet, Snippet } from "../tablets/tablets";
+import { LanguageTablet, Snippet, Translation } from "../tablets/tablets";
 import { TargetLanguage } from "../languages";
 
 export async function readTablet(tabletFile: string, key?: string, lang?: string) {
@@ -47,8 +47,8 @@ export async function readTablet(tabletFile: string, key?: string, lang?: string
     }
   }
 
-  function displayTranslation(translation: string) {
-    process.stdout.write(translation + '\n');
+  function displayTranslation(translation: Translation) {
+    process.stdout.write(translation.source + '\n');
   }
 }
 

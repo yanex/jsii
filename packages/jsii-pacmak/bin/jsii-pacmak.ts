@@ -6,11 +6,13 @@ import os = require('os');
 import path = require('path');
 import process = require('process');
 import yargs = require('yargs');
+import { Rosetta } from 'jsii-rosetta';
 import logging = require('../lib/logging');
 import { Target } from '../lib/target';
 import { Timers } from '../lib/timer';
 import { resolveDependencyDirectory, shell } from '../lib/util';
 import { VERSION_DESC } from '../lib/version';
+import { assemblySpec } from '../lib/reflect-hacks';
 
 (async function main() {
   const targetConstructors = await Target.findAll();
@@ -77,6 +79,15 @@ import { VERSION_DESC } from '../lib/version';
       desc: 'Auto-update .npmignore to exclude the output directory and include the .jsii file',
       default: true
     })
+    .option('samples-tablet',  {
+      type: 'string',
+      desc: 'Location of a jsii-rosetta tablet with sample translations (created using \'jsii-rosetta extract\')'
+    })
+    .option('live-translation',  {
+      type: 'boolean',
+      desc: 'Translate code samples on-the-fly if they can\'t be found in the samples tablet',
+      default: true
+    })
     .version(VERSION_DESC)
     .argv;
 
@@ -85,9 +96,15 @@ import { VERSION_DESC } from '../lib/version';
   logging.debug('command line arguments:', argv);
 
   const rootDir = path.resolve(process.cwd(), argv._[0] || '.');
+  const rosetta = new Rosetta({ liveConversion: argv['live-translation'] });
+  if (argv['samples-tablet']) {
+    await rosetta.loadTablet(argv['samples-tablet']);
+  }
 
   const visited = new Set<string>();
   await buildPackage(rootDir, true /* isRoot */, argv['force-subdirectory']);
+
+  rosetta.printDiagnostics(process.stderr);
 
   async function buildPackage(packageDir: string, isRoot: boolean, forceSubdirectory: boolean) {
     if (visited.has(packageDir)) {
@@ -142,6 +159,8 @@ import { VERSION_DESC } from '../lib/version';
       const ts = new reflect.TypeSystem();
       const assembly = await ts.loadModule(packageDir);
 
+      rosetta.addAssembly(assemblySpec(assembly), packageDir);
+
       await Promise.all(targets.map(targetName => {
         // if we are targeting a single language, output to outdir, otherwise outdir/<target>
         const targetOutputDir = targets.length > 1 || forceSubdirectory
@@ -176,6 +195,7 @@ import { VERSION_DESC } from '../lib/version';
       targetName,
       packageDir,
       assembly,
+      rosetta,
       fingerprint: argv.fingerprint,
       force: argv.force,
       arguments: argv

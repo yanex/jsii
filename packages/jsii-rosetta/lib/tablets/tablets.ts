@@ -72,7 +72,7 @@ export class Snippet {
 
   public static fromSource(original: TypeScriptSnippet, didCompile?: boolean) {
     const ret = new Snippet();
-    Object.assign(ret.translations, { [ORIGINAL_SNIPPET_KEY]: original.source });
+    Object.assign(ret.translations, { [ORIGINAL_SNIPPET_KEY]: { source: original.source }});
     ret._didCompile = didCompile;
     ret._where = original.where;
     return ret;

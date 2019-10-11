@@ -79,11 +79,11 @@ import { assemblySpec } from '../lib/reflect-hacks';
       desc: 'Auto-update .npmignore to exclude the output directory and include the .jsii file',
       default: true
     })
-    .option('samples-tablet',  {
+    .option('samples-tablet', {
       type: 'string',
       desc: 'Location of a jsii-rosetta tablet with sample translations (created using \'jsii-rosetta extract\')'
     })
-    .option('live-translation',  {
+    .option('live-translation', {
       type: 'boolean',
       desc: 'Translate code samples on-the-fly if they can\'t be found in the samples tablet',
       default: true
@@ -159,7 +159,7 @@ import { assemblySpec } from '../lib/reflect-hacks';
       const ts = new reflect.TypeSystem();
       const assembly = await ts.loadModule(packageDir);
 
-      rosetta.addAssembly(assemblySpec(assembly), packageDir);
+      await rosetta.addAssembly(assemblySpec(assembly), packageDir);
 
       await Promise.all(targets.map(targetName => {
         // if we are targeting a single language, output to outdir, otherwise outdir/<target>

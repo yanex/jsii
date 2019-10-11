@@ -19,7 +19,7 @@ const INCOMPLETE_DISCLAIMER = '# Example automatically generated. See https://gi
 export default class Python extends Target {
   protected readonly generator: PythonGenerator;
 
-  constructor(options: TargetOptions) {
+  public constructor(options: TargetOptions) {
     super(options);
 
     this.generator = new PythonGenerator(options.rosetta);
@@ -938,7 +938,11 @@ class Enum extends BasePythonClassType {
 }
 
 class EnumMember implements PythonBase {
-  public constructor(private readonly generator: PythonGenerator, public readonly pythonName: string, private readonly value: string, private readonly docs: spec.Docs | undefined) {
+  public constructor(
+    private readonly generator: PythonGenerator,
+    public readonly pythonName: string,
+    private readonly value: string,
+    private readonly docs: spec.Docs | undefined) {
     this.pythonName = pythonName;
     this.value = value;
   }
@@ -1544,7 +1548,7 @@ class PythonGenerator extends Generator {
 
   private prefixDisclaimer(translated: Translation) {
     if (translated.didCompile) { return translated.source; }
-    return INCOMPLETE_DISCLAIMER + '\n' + translated.source;
+    return `${INCOMPLETE_DISCLAIMER}\n${translated.source}`;
   }
 
   public getPythonType(fqn: string): PythonType {

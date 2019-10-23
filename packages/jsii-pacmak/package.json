@@ -39,7 +39,7 @@
     "escape-string-regexp": "^2.0.0",
     "fs-extra": "^8.1.0",
     "jsii-reflect": "^0.19.0",
-    "jsii-sampiler": "^0.19.0",
+    "jsii-rosetta": "^0.19.0",
     "jsii-spec": "^0.19.0",
     "jsii-rosetta": "^0.19.0",
     "spdx-license-list": "^6.1.0",

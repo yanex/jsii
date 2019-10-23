@@ -8,25 +8,8 @@ import logging = require('./logging');
 import { resolveDependencyDirectory } from './util';
 import { Rosetta } from 'jsii-rosetta';
 
-export abstract class Target {
-  public static async findAll() {
-    return new Promise<{ [name: string]: TargetConstructor }>((ok, ko) => {
-      const targetDir = path.join(__dirname, 'targets');
-      fs.readdir(targetDir).then(names => {
-        try {
-          const result: { [name: string]: TargetConstructor } = {};
-          for (const name of names) {
-            if (!name.endsWith('.js')) { continue; }
-            result[path.basename(name, '.js')] = require(path.join(targetDir, name)).default;
-          }
-          ok(result);
-        } catch (e) {
-          ko(e);
-        }
-      }).catch(ko);
-    });
-  }
 
+export abstract class Target {
   protected readonly packageDir: string;
   protected readonly fingerprint: boolean;
   protected readonly force: boolean;
@@ -146,7 +129,7 @@ export interface TargetConstructor {
      * @return the native reference for the target for each supported language (there can be multiple languages
      *         supported by a given target: typescript & javascript, java & scala & clojure & kotlin, ...)
      */
-  toNativeReference?: (type: spec.Type, options: any) => { [language: string]: string };
+  toNativeReference?: (type: spec.Type, options: any) => { [language: string]: string | undefined };
 
   new(options: TargetOptions): Target;
 }

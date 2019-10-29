@@ -53,6 +53,13 @@
           "artifactId": "calculator-base"
         }
       },
+      "kotlin": {
+        "package": "software.amazon.jsii.tests.calculator.base",
+        "maven": {
+          "groupId": "software.amazon.jsii.tests",
+          "artifactId": "calculator-base"
+        }
+      },
       "dotnet": {
         "namespace": "Amazon.JSII.Tests.CalculatorNamespace.BaseNamespace",
         "packageId": "Amazon.JSII.Tests.CalculatorPackageId.BasePackageId"

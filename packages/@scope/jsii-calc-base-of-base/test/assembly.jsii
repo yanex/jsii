@@ -33,6 +33,13 @@
     "js": {
       "npm": "@scope/jsii-calc-base-of-base"
     },
+    "kotlin": {
+      "maven": {
+        "artifactId": "calculator-base-of-base",
+        "groupId": "software.amazon.jsii.tests"
+      },
+      "package": "software.amazon.jsii.tests.calculator.baseofbase"
+    },
     "python": {
       "distName": "scope.jsii-calc-base-of-base",
       "module": "scope.jsii_calc_base_of_base"

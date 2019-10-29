@@ -379,6 +379,13 @@ defineTest(
         },
       },
       js: { npm: 'jsii-calc' },
+      kotlin: {
+        package: 'software.amazon.jsii.tests.calculator',
+        maven: {
+          groupId: 'software.amazon.jsii.tests',
+          artifactId: 'calculator',
+        },
+      },
       python: { distName: 'jsii-calc', module: 'jsii_calc' },
     });
     expect(sandbox.naming({ assembly: '@scope/jsii-calc-lib' }).naming).toEqual(
@@ -397,6 +404,14 @@ defineTest(
           },
         },
         js: { npm: '@scope/jsii-calc-lib' },
+        kotlin: {
+          package: 'software.amazon.jsii.tests.calculator.lib',
+          maven: {
+            groupId: 'software.amazon.jsii.tests',
+            artifactId: 'calculator-lib',
+            versionSuffix: '.DEVPREVIEW',
+          },
+        },
         python: {
           distName: 'scope.jsii-calc-lib',
           module: 'scope.jsii_calc_lib',

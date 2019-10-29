@@ -7,9 +7,10 @@ import { ReplaceCodeTransform } from './markdown/replace-code-renderer';
 import { OTree, renderTree } from './o-tree';
 import { TypeScriptCompiler, CompilationResult } from './typescript/ts-compiler';
 import { inTempDir } from './util';
-import { TypeScriptSnippet } from './tablets/snippets';
 import { Snippet } from './tablets/tablets';
 import { TARGET_LANGUAGES, TargetLanguage } from './languages';
+import { ExtractedSnippet } from './jsii/assemblies';
+import { calculateVisibleSpans } from './typescript/ast-utils';
 
 export interface Source {
   withFile<A>(fn: (fileName: string) => A): A;
@@ -136,23 +137,22 @@ export class Translator {
   constructor(private readonly includeCompilerDiagnostics: boolean) {
   }
 
-  public translate(block: TypeScriptSnippet, languages = Object.keys(TARGET_LANGUAGES) as TargetLanguage[]) {
-    const translator = this.translatorFor(block.source, block.where);
+  public translate(block: ExtractedSnippet, languages = Object.keys(TARGET_LANGUAGES) as TargetLanguage[]) {
+    const translator = this.translatorFor(block.completeSource, block.where);
+    const snippet = Snippet.fromExtractedSnippet(block, this.includeCompilerDiagnostics ? translator.compileDiagnostics.length === 0 : undefined);
 
-    const snippet = Snippet.fromSource(block, this.includeCompilerDiagnostics ? translator.compileDiagnostics.length === 0 : undefined);
+    // Respect '/// !hide' and '/// !show' directives
+    const visibleSpans = calculateVisibleSpans(block.completeSource);
 
     for (const lang of languages) {
-      this.addTranslationFor(snippet, lang);
+      const languageConverterFactory = TARGET_LANGUAGES[lang];
+      const translated = renderTree(translator.translateUsing(languageConverterFactory()), {
+        visibleSpans,
+      });
+      snippet.addTranslatedSource(lang, translated);
     }
 
     return snippet;
-  }
-
-  public addTranslationFor(snippet: Snippet, language: TargetLanguage) {
-    const translator = this.translatorFor(snippet.originalSource.source, snippet.where);
-    const languageConverterFactory = TARGET_LANGUAGES[language];
-    const translated = renderTree(translator.translateUsing(languageConverterFactory()));
-    return snippet.addTranslatedSource(language, translated);
   }
 
   public get diagnostics(): ts.Diagnostic[] {

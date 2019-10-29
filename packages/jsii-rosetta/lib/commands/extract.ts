@@ -24,7 +24,7 @@ export async function extractSnippets(assemblyLocations: string[], outputFile: s
   const startTime = Date.now();
 
   for (const block of allTypeScriptSnippets(assemblies)) {
-    logging.debug(`Translating ${snippetKey(block.source)}`);
+    logging.debug(`Translating ${snippetKey(block.originalSource)}`);
     tablet.addSnippet(translator.translate(block));
   }
 

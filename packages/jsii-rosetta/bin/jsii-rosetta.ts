@@ -39,9 +39,9 @@ async function main() {
     .command('extract [ASSEMBLY..]', 'Extract code snippets from one or more assemblies into a language tablets', command => command
       .positional('ASSEMBLY', { type: 'string', string: true, default: new Array<string>(), describe: 'Assembly or directory to extract from' })
       .option('output', { alias: 'o', type: 'string', describe: 'Output file where to store the sample tablets', default: DEFAULT_TABLET_NAME })
-      .option('must-compile', { alias: 'c', type: 'boolean', describe: 'Include compiler diagnostics', default: false })
+      .option('compile', { alias: 'c', type: 'boolean', describe: 'Try compiling', default: false })
       .option('directory', { alias: 'd', type: 'string', describe: 'Working directory (for require() etc)' })
-      .option('fail', { alias: 'f', type: 'boolean', describe: 'Fail if there are compilation errors', default: true })
+      .option('fail', { alias: 'f', type: 'boolean', describe: 'Fail if there are compilation errors', default: false })
     , wrapHandler(async args => {
 
       // Easiest way to get a fixed working directory (for sources) in is to
@@ -54,7 +54,7 @@ async function main() {
         process.chdir(args.directory);
       }
 
-      const result = await extractSnippets(absAssemblies, absOutput, args["must-compile"]);
+      const result = await extractSnippets(absAssemblies, absOutput, args.compile);
 
       printDiagnostics(result.diagnostics, process.stderr);
 

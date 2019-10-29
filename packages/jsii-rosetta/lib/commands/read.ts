@@ -24,6 +24,10 @@ export async function readTablet(tabletFile: string, key?: string, lang?: string
   }
 
   function displaySnippet(snippet: Snippet) {
+    if (snippet.didCompile !== undefined) {
+      process.stdout.write(`Compiled: ${snippet.didCompile}\n`);
+    }
+
     if (lang !== undefined) {
       const translation = snippet.get(lang as TargetLanguage);
       if (translation === undefined) {

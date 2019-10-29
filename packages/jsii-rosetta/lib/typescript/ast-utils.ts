@@ -1,4 +1,46 @@
 import ts = require('typescript');
+import { Span } from '../o-tree';
+
+export interface MarkedSpan {
+  start: number;
+  end: number;
+  visible: boolean;
+}
+
+export function calculateVisibleSpans(source: string): Span[] {
+  return calculateMarkedSpans(source).filter(s => s.visible);
+}
+
+export function calculateMarkedSpans(source: string): MarkedSpan[] {
+  const regEx = /\/\/\/ (.*)(\r?\n)?$/gm;
+
+  const ret = new Array<MarkedSpan>();
+  let match;
+  let spanStart;
+  let visible = true;
+  while ((match = regEx.exec(source)) != null) {
+    const directiveStart = match.index;
+    const directive = match[1].trim();
+    if (['!hide', '!show'].includes(directive)) {
+      const isShow = directive === '!show';
+      if (spanStart === undefined) {
+        // Add a span at the start which is the reverse of the actual first directive
+        ret.push({ start: 0, end: directiveStart, visible: !isShow });
+      } else {
+        // Else add a span for the current directive
+        ret.push({ start: spanStart, end: directiveStart, visible });
+      }
+      visible = isShow;
+      spanStart = match.index + match[0].length;
+    }
+  }
+
+  // Add the remainder under the last visibility
+  ret.push({ start: spanStart || 0, end: source.length, visible });
+
+  // Filter empty spans and return
+  return ret.filter(s => s.start !== s.end);
+}
 
 export function stripCommentMarkers(comment: string, multiline: boolean) {
   if (multiline) {
@@ -187,7 +229,7 @@ export function commentRangeFromTextRange(rng: TextRange): ts.CommentRange {
 interface TextRange {
   pos: number;
   end: number;
-  type: 'linecomment' | 'blockcomment' | 'other';
+  type: 'linecomment' | 'blockcomment' | 'other' | 'directive';
   hasTrailingNewLine: boolean;
 }
 
@@ -247,12 +289,24 @@ export function scanText(text: string, start: number, end?: number): TextRange[]
 
   function scanSinglelineComment() {
     const nl = Math.min(findNext('\r', pos + 2), findNext('\n', pos + 2));
-    ret.push({
-      type: 'linecomment',
-      hasTrailingNewLine: true,
-      pos,
-      end: nl
-    });
+
+    if (text[pos + 2] === '/') {
+      // Special /// comment
+      ret.push({
+        type: 'directive',
+        hasTrailingNewLine: true,
+        pos: pos + 1,
+        end: nl
+      });
+    } else {
+      // Regular // comment
+      ret.push({
+        type: 'linecomment',
+        hasTrailingNewLine: true,
+        pos,
+        end: nl
+      });
+    }
     pos = nl + 1;
     start = pos;
   }

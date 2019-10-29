@@ -6,6 +6,7 @@ import { matchAst, nodeOfType, stripCommentMarkers, voidExpressionString } from 
 import { ImportStatement } from '../typescript/imports';
 import { startsWithUppercase } from "../util";
 import { DefaultVisitor } from './default';
+import { jsiiTargetParam } from '../jsii/packages';
 
 interface StructVar {
   variableName: string;
@@ -458,7 +459,12 @@ export class PythonVisitor extends DefaultVisitor<PythonLanguageContext> {
   }
 
   protected convertModuleReference(ref: string) {
-    return ref.replace(/^@/, '').replace(/\//g, '.').replace(/-/g, '_');
+    // Get the Python target name from the referenced package (if available)
+    const resolvedPackage = jsiiTargetParam(ref, 'python.module');
+
+    // Return that or some default-derived module name representation
+
+    return resolvedPackage || ref.replace(/^@/, '').replace(/\//g, '.').replace(/-/g, '_');
   }
 
   /**

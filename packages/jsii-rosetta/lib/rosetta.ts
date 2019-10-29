@@ -1,11 +1,10 @@
 import fs = require('fs-extra');
 import path = require('path');
 import spec = require('jsii-spec');
-import { DEFAULT_TABLET_NAME, LanguageTablet, Snippet, Translation } from "./tablets/tablets";
-import { allTypeScriptSnippets } from './jsii/assemblies';
+import { DEFAULT_TABLET_NAME, LanguageTablet, Translation } from "./tablets/tablets";
+import { allTypeScriptSnippets, ExtractedSnippet } from './jsii/assemblies';
 import { TargetLanguage } from './languages';
 import { Translator, printDiagnostics } from './translate';
-import { snippetKey } from './tablets/key';
 import { isError } from 'util';
 import { transformMarkdown } from './markdown/markdown';
 import { MarkdownRenderer } from './markdown/markdown-renderer';
@@ -18,6 +17,13 @@ export interface RosettaOptions {
    * @default false
    */
   liveConversion?: boolean;
+
+  /**
+   * Target languages to use for live conversion
+   *
+   * @default All languages
+   */
+  targetLanguages?: TargetLanguage[];
 }
 
 /**
@@ -34,6 +40,7 @@ export interface RosettaOptions {
 export class Rosetta {
   private readonly loadedTablets: LanguageTablet[] = [];
   private readonly liveTablet = new LanguageTablet();
+  private readonly extractedSnippets: Record<string, ExtractedSnippet> = {};
   private readonly translator = new Translator(false);
 
   constructor(private readonly options: RosettaOptions) {
@@ -65,32 +72,32 @@ export class Rosetta {
    * otherwise each language generator has to reimplement a way to describe API
    * elements while spidering the jsii assembly).
    */
-  public async addAssembly(assembly: spec.Assembly, assemblyDir?: string) {
-    if (assemblyDir && await fs.pathExists(path.join(assemblyDir, DEFAULT_TABLET_NAME))) {
+  public async addAssembly(assembly: spec.Assembly, assemblyDir: string) {
+    if (await fs.pathExists(path.join(assemblyDir, DEFAULT_TABLET_NAME))) {
       await this.loadTablet(path.join(assemblyDir, DEFAULT_TABLET_NAME));
       return;
     }
 
     if (this.options.liveConversion) {
-      for (const tsnip of allTypeScriptSnippets([{ assembly }])) {
-        this.liveTablet.addSnippet(Snippet.fromSource(tsnip));
+      for (const tsnip of allTypeScriptSnippets([{ assembly, directory: assemblyDir }])) {
+        this.extractedSnippets[tsnip.originalSource] = tsnip;
       }
     }
   }
 
   public translateSnippet(source: string, targetLang: TargetLanguage): Translation | undefined {
     // Look for it in loaded tablets
-    for (const tab of this.loadedTablets) {
+    for (const tab of this.allTablets) {
       const ret = tab.lookup(source, targetLang);
       if (ret !== undefined) { return ret; }
     }
 
     // See if we're going to live-convert it
-    const liveSnippet = this.liveTablet.getSnippet(snippetKey(source));
-    if (liveSnippet !== undefined) {
-      let trans = liveSnippet.get(targetLang);
-      if (trans !== undefined) { return trans; }
-      return this.translator.addTranslationFor(liveSnippet, targetLang);
+    const extracted = this.extractedSnippets[source];
+    if (extracted !== undefined) {
+      const snippet = this.translator.translate(extracted, this.options.targetLanguages);
+      this.liveTablet.addSnippet(snippet);
+      return snippet.get(targetLang);
     }
 
     return undefined;
@@ -114,6 +121,10 @@ export class Rosetta {
   public get hasErrors() {
     return this.diagnostics.some(isError);
   };
+
+  private get allTablets(): LanguageTablet[]  {
+    return [...this.loadedTablets, this.liveTablet];
+  }
 }
 
 

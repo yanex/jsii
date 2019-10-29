@@ -1,4 +1,3 @@
-
 export interface OTreeOptions {
   /**
    * Adjust indentation with the given number
@@ -50,7 +49,7 @@ export interface OTreeOptions {
  * Tree-like structure that holds sequences of trees and strings, which
  * can be rendered to an output stream.
  */
-export class OTree {
+export class OTree implements OTree {
   public static simplify(xs: Array<OTree | string | undefined>): Array<OTree | string> {
     return xs.filter(notUndefined).filter(notEmpty);
   }
@@ -59,6 +58,7 @@ export class OTree {
 
   private readonly prefix: Array<OTree | string>;
   private readonly children: Array<OTree | string>;
+  private span?: Span;
 
   constructor(
     prefix: Array<OTree | string | undefined>,
@@ -70,25 +70,36 @@ export class OTree {
     this.attachComment = !!options.canBreakLine;
   }
 
+  /**
+   * Set the span in the source file this tree node relates to
+   */
+  public setSpan(start: number, end: number) {
+    this.span = { start, end };
+  }
+
   public write(sink: OTreeSink) {
     if (!sink.tagOnce(this.options.renderOnce)) { return; }
+
+    const meVisible = sink.renderingForSpan(this.span);
 
     for (const x of this.prefix) {
       sink.write(x);
     }
 
-    const popIndent = sink.requestIndentChange(this.options.indent || 0);
+    const popIndent = sink.requestIndentChange(meVisible ? this.options.indent || 0 : 0);
     let mark = sink.mark();
     for (const child of this.children || []) {
-      if (this.options.separator && mark.wroteNonWhitespaceSinceMark) { sink.write(this.options.separator); }
+      if (this.options.separator && mark.wroteNonWhitespaceSinceMark) {
+        sink.write(this.options.separator);
+      }
       mark = sink.mark();
 
       sink.write(child);
     }
-
     popIndent();
 
     if (this.options.suffix) {
+      sink.renderingForSpan(this.span);
       sink.write(this.options.suffix);
     }
   }
@@ -111,11 +122,19 @@ export interface SinkMark {
   readonly wroteNonWhitespaceSinceMark: boolean;
 }
 
+export interface OTreeSinkOptions {
+  visibleSpans?: Span[];
+}
+
 export class OTreeSink {
   private readonly indentLevels: number[] = [0];
   private readonly fragments = new Array<string>();
   private singletonsRendered = new Set<string>();
   private pendingIndentChange = 0;
+  private rendering = true;
+
+  constructor(private readonly options: OTreeSinkOptions = {}) {
+  }
 
   public tagOnce(key: string | undefined): boolean {
     if (key === undefined) { return true; }
@@ -124,6 +143,11 @@ export class OTreeSink {
     return true;
   }
 
+  /**
+   * Get a mark for the current sink output location
+   *
+   * Marks can be used to query about things that have been written to output.
+   */
   public mark(): SinkMark {
     const self = this;
     const markIndex = this.fragments.length;
@@ -139,11 +163,20 @@ export class OTreeSink {
     if (text instanceof OTree) {
       text.write(this);
     } else {
+      if (!this.rendering) { return; }
+
       if (containsNewline(text)) {
         this.applyPendingIndentChange();
       }
       this.append(text.replace(/\n/g, '\n' + ' '.repeat(this.currentIndent)));
     }
+  }
+
+  public renderingForSpan(span?: Span): boolean {
+    if (span && this.options.visibleSpans) {
+      this.rendering = this.options.visibleSpans.some(v => inside(span, v));
+    }
+    return this.rendering;
   }
 
   public requestIndentChange(x: number): () => void {
@@ -162,8 +195,8 @@ export class OTreeSink {
   }
 
   public toString() {
-    // Strip trailing whitespace from every line
-    return this.fragments.join('').replace(/[ \t]+$/gm, '');
+    // Strip trailing whitespace from every line, and empty lines from the start and end
+    return this.fragments.join('').replace(/[ \t]+$/gm, '').replace(/^\n+/, '').replace(/\n+$/, '');
   }
 
   private append(x: string) {
@@ -190,12 +223,21 @@ function notEmpty(x: OTree | string) {
   return x instanceof OTree ? !x.isEmpty : x !== '';
 }
 
-export function renderTree(tree: OTree): string {
-  const sink = new OTreeSink();
+export function renderTree(tree: OTree, options?: OTreeSinkOptions): string {
+  const sink = new OTreeSink(options);
   tree.write(sink);
   return sink.toString();
 }
 
 function containsNewline(x: string) {
   return x.indexOf('\n') !== -1;
+}
+
+export interface Span {
+  start: number;
+  end: number
+}
+
+function inside(a: Span, b: Span) {
+  return b.start <= a.start && a.end <= b.end;
 }

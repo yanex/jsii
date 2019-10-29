@@ -58,3 +58,24 @@ test('hide statements with explicit ellipsis', () => {
   after()
   `);
 });
+
+test('hide halfway into class using comments', () => {
+  expectPython(`
+  prepare();
+
+  /// !hide
+  class Something {
+    constructor() {
+
+      /// !show
+      console.log(this, 'it seems to work');
+      /// !hide
+    }
+  }
+  `, `
+  prepare()
+
+  print(self, "it seems to work")
+  `
+  );
+});

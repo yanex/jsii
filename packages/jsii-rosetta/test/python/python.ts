@@ -1,6 +1,7 @@
 import { LiteralSource, renderTree, translateTypeScript } from "../../lib";
 import { PythonVisitor } from "../../lib/languages/python";
 import { visualizeTypeScriptAst } from "../../lib/util";
+import { calculateVisibleSpans } from "../../lib/typescript/ast-utils";
 
 const DEBUG = false;
 
@@ -16,7 +17,9 @@ export function ts2python(source: string): string {
   // Very debug. Much print.
   // console.log(JSON.stringify(result.tree, undefined, 2));
 
-  return renderTree(result.tree) + '\n';
+  return renderTree(result.tree, {
+    visibleSpans: calculateVisibleSpans(source),
+  }) + '\n';
 }
 
 export function expectPython(source: string, expected: string) {

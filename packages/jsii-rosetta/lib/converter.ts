@@ -46,9 +46,12 @@ export class AstConverter<C> {
 
     // Basic transform of node
     const transformed = this.dispatch(node);
+    transformed.setSpan(node.getStart(this.sourceFile), node.getEnd());
     if (!transformed.attachComment) { return transformed; }
 
-    return this.attachLeadingTrivia(node, transformed);
+    const withTrivia = this.attachLeadingTrivia(node, transformed);
+    withTrivia.setSpan(node.getStart(this.sourceFile), node.getEnd());
+    return withTrivia;
   }
 
   /**
@@ -235,6 +238,9 @@ export class AstConverter<C> {
         case 'linecomment':
         case 'blockcomment':
           precede.push(this.handler.commentRange(commentRangeFromTextRange(range), this));
+          break;
+
+        case 'directive':
           break;
       }
     }

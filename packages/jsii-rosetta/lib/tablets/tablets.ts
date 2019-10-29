@@ -3,6 +3,7 @@ import { TabletSchema, SnippetSchema, TranslationSchema, ORIGINAL_SNIPPET_KEY } 
 import { snippetKey } from './key';
 import { TargetLanguage } from '../languages';
 import { TypeScriptSnippet } from './snippets';
+import { ExtractedSnippet } from '../jsii/assemblies';
 
 const TOOL_VERSION = require('../../package.json').version;
 
@@ -15,7 +16,8 @@ export class LanguageTablet {
   private readonly snippets: Record<string, Snippet> = {};
 
   public addSnippet(snippet: Snippet) {
-    this.snippets[snippet.key] = snippet;
+    const existingSnippet = this.snippets[snippet.key];
+    this.snippets[snippet.key] = existingSnippet ? existingSnippet.merge(snippet) : snippet;
   }
 
   public get snippetKeys() {
@@ -78,6 +80,13 @@ export class Snippet {
     return ret;
   }
 
+  public static fromExtractedSnippet(original: ExtractedSnippet, didCompile?: boolean) {
+    return Snippet.fromSource({
+      source: original.originalSource,
+      where: original.where
+    }, didCompile);
+  }
+
   private readonly translations: Record<string, TranslationSchema> = {};
   private _key?: string;
   private _didCompile?: boolean;
@@ -126,6 +135,14 @@ export class Snippet {
   public get(language: TargetLanguage): Translation | undefined {
     const t = this.translations[language];
     return t && { source: t.source, language, didCompile: this.didCompile };
+  }
+
+  public merge(other: Snippet) {
+    const ret = new Snippet();
+    Object.assign(ret.translations, this.translations, other.translations);
+    ret._didCompile = this.didCompile;
+    ret._where = this.where;
+    return ret;
   }
 
   public toTypeScriptSnippet() {

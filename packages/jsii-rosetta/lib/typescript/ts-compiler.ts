@@ -71,8 +71,8 @@ export const STANDARD_COMPILER_OPTIONS: ts.CompilerOptions = {
   noImplicitAny: true,
   noImplicitReturns: true,
   noImplicitThis: true,
-  noUnusedLocals: true,
-  noUnusedParameters: true,
+  noUnusedLocals: false,  // Important, becomes super annoying without this
+  noUnusedParameters: false, // Important, becomes super annoying without this
   resolveJsonModule: true,
   strict: true,
   strictNullChecks: true,

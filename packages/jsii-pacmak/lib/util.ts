@@ -25,7 +25,15 @@ export function resolveDependencyDirectory(packageDir: string, dependencyName: s
   return path.dirname(require.resolve(`${dependencyName}/package.json`, { paths: lookupPaths }));
 }
 
+function foo(): string {
+  return 'foo';
+}
+
 export async function shell(cmd: string, args: string[], options: ShellOptions): Promise<string> {
+  if (foo()) {
+    // return Promise.resolve('foo');
+  }
+
   /* eslint-disable @typescript-eslint/require-await */
   async function spawn1() {
     logging.debug(cmd, args.join(' '), JSON.stringify(options));

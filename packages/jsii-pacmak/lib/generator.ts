@@ -49,11 +49,46 @@ export interface IGenerator {
   save(outdir: string, tarball: string): Promise<any>;
 }
 
+export abstract class GeneratorBase implements IGenerator {
+  abstract generate(fingerprint: boolean): void
+  abstract async load(packageDir: string, assembly: reflect.Assembly): Promise<void>
+  abstract async upToDate(outDir: string): Promise<boolean>
+  abstract async save(outdir: string, tarball: string): Promise<any>
+
+  protected calculateFingerprint(assembly: reflect.Assembly): string {
+    return crypto.createHash('sha256')
+      .update(VERSION_DESC)
+      .update('\0')
+      .update(assembly.fingerprint)
+      .digest('base64');
+  }
+
+  /**
+   * Returns the file name of the assembly resource as it is going to be saved.
+   */
+  protected getAssemblyArchiveFileName(assembly: reflect.Assembly): string {
+    const spec = assemblySpec(assembly)
+
+    let name = spec.name;
+    const parts = name.split('/');
+
+    if (parts.length === 1) {
+      name = parts[0];
+    } else if (parts.length === 2 && parts[0].startsWith('@')) {
+      name = parts[1];
+    } else {
+      throw new Error('Malformed assembly name. Expecting either <name> or @<scope>/<name>');
+    }
+
+    return `${name}@${spec.version}.jsii.tgz`
+  }
+}
+
 /**
  * Abstract base class for jsii package generators.
  * Given a jsii module, it will invoke "events" to emit various elements.
  */
-export abstract class Generator implements IGenerator {
+export abstract class Generator extends GeneratorBase {
   private readonly excludeTypes = new Array<string>();
   protected readonly code = new CodeMaker();
   protected assembly: spec.Assembly;
@@ -61,6 +96,7 @@ export abstract class Generator implements IGenerator {
   private fingerprint: string;
 
   public constructor(private readonly options: GeneratorOptions = {}) {
+    super();
   }
 
   public get reflectAssembly(): reflect.Assembly {
@@ -79,11 +115,7 @@ export abstract class Generator implements IGenerator {
     this.assembly = assemblySpec(assembly);
 
     // Including the version of jsii-pacmak in the fingerprint, as a new version may imply different code generation.
-    this.fingerprint = crypto.createHash('sha256')
-      .update(VERSION_DESC)
-      .update('\0')
-      .update(this.assembly.fingerprint)
-      .digest('base64');
+    this.fingerprint = this.calculateFingerprint(assembly);
 
     return Promise.resolve();
   }
@@ -104,19 +136,8 @@ export abstract class Generator implements IGenerator {
   /**
    * Returns the file name of the assembly resource as it is going to be saved.
    */
-  protected getAssemblyFileName() {
-    let name = this.assembly.name;
-    const parts = name.split('/');
-
-    if (parts.length === 1) {
-      name = parts[0];
-    } else if (parts.length === 2 && parts[0].startsWith('@')) {
-      name = parts[1];
-    } else {
-      throw new Error('Malformed assembly name. Expecting either <name> or @<scope>/<name>');
-    }
-
-    return `${name}@${this.assembly.version}.jsii.tgz`
+  protected getAssemblyFileName(): string {
+    return this.getAssemblyArchiveFileName(this.reflectAssembly)
   }
 
   /**

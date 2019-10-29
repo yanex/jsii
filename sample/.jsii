@@ -1,0 +1,2597 @@
+{
+  "author": {
+    "name": "Yan Zhulanow",
+    "roles": [
+      "author"
+    ]
+  },
+  "description": "Hello Jsii",
+  "homepage": "https://github.com/yanex/hello-jsii.git",
+  "jsiiVersion": "0.19.0 (build 5d7824d@dev)",
+  "license": "ISC",
+  "name": "hello",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yanex/hello-jsii.git"
+  },
+  "schema": "jsii/0.10.0",
+  "targets": {
+    "java": {
+      "maven": {
+        "artifactId": "hello-jsii",
+        "groupId": "org.yanex.hello"
+      },
+      "package": "org.yanex.hello"
+    },
+    "js": {
+      "npm": "hello"
+    },
+    "kotlin": {
+      "maven": {
+        "artifactId": "hello-jsii",
+        "groupId": "org.yanex.hello"
+      },
+      "package": "org.yanex.hello"
+    }
+  },
+  "types": {
+    "hello.Add": {
+      "assembly": "hello",
+      "base": "hello.BinaryOperation",
+      "docs": {
+        "summary": "The \"+\" binary operation."
+      },
+      "fqn": "hello.Add",
+      "initializer": {
+        "docs": {
+          "summary": "Creates a BinaryOperation."
+        },
+        "parameters": [
+          {
+            "docs": {
+              "summary": "Left-hand side operand."
+            },
+            "name": "lhs",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          },
+          {
+            "docs": {
+              "summary": "Right-hand side operand."
+            },
+            "name": "rhs",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 199
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "String representation of the value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 204
+          },
+          "name": "toString",
+          "overrides": "hello.Operation",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "Add",
+      "properties": [
+        {
+          "docs": {
+            "summary": "The value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 200
+          },
+          "name": "value",
+          "overrides": "hello.Value",
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.Base": {
+      "abstract": true,
+      "assembly": "hello",
+      "docs": {
+        "summary": "A base class."
+      },
+      "fqn": "hello.Base",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 21
+      },
+      "methods": [
+        {
+          "docs": {
+            "returns": "the name of the class (to verify native type names are created for derived classes)."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 25
+          },
+          "name": "typeName",
+          "returns": {
+            "type": {
+              "primitive": "any"
+            }
+          }
+        }
+      ],
+      "name": "Base"
+    },
+    "hello.BaseProps": {
+      "assembly": "hello",
+      "datatype": true,
+      "fqn": "hello.BaseProps",
+      "interfaces": [
+        "hello.VeryBaseProps"
+      ],
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 30
+      },
+      "name": "BaseProps",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 31
+          },
+          "name": "bar",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.BinaryOperation": {
+      "abstract": true,
+      "assembly": "hello",
+      "base": "hello.Operation",
+      "docs": {
+        "summary": "Represents an operation with two operands."
+      },
+      "fqn": "hello.BinaryOperation",
+      "initializer": {
+        "docs": {
+          "summary": "Creates a BinaryOperation."
+        },
+        "parameters": [
+          {
+            "docs": {
+              "summary": "Left-hand side operand."
+            },
+            "name": "lhs",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          },
+          {
+            "docs": {
+              "summary": "Right-hand side operand."
+            },
+            "name": "rhs",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          }
+        ]
+      },
+      "interfaces": [
+        "hello.IFriendly"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 181
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "Say hello!"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 191
+          },
+          "name": "hello",
+          "overrides": "hello.IFriendly",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "BinaryOperation",
+      "properties": [
+        {
+          "docs": {
+            "summary": "Left-hand side operand."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 187
+          },
+          "name": "lhs",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "Right-hand side operand."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 187
+          },
+          "name": "rhs",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        }
+      ]
+    },
+    "hello.Calculator": {
+      "assembly": "hello",
+      "base": "hello.composition.CompositeOperation",
+      "docs": {
+        "summary": "A calculator which maintains a current value and allows adding operations."
+      },
+      "fqn": "hello.Calculator",
+      "initializer": {
+        "docs": {
+          "summary": "Creates a Calculator object."
+        },
+        "parameters": [
+          {
+            "docs": {
+              "summary": "Initialization properties."
+            },
+            "name": "props",
+            "optional": true,
+            "type": {
+              "fqn": "hello.CalculatorProps"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 386
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "Adds a number to the current value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 425
+          },
+          "name": "add",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "primitive": "number"
+              }
+            }
+          ]
+        },
+        {
+          "docs": {
+            "summary": "Multiplies the current value by a number."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 432
+          },
+          "name": "mul",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "primitive": "number"
+              }
+            }
+          ]
+        },
+        {
+          "docs": {
+            "summary": "Negates the current value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 446
+          },
+          "name": "neg"
+        },
+        {
+          "docs": {
+            "summary": "Raises the current value by a power."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 439
+          },
+          "name": "pow",
+          "parameters": [
+            {
+              "name": "value",
+              "type": {
+                "primitive": "number"
+              }
+            }
+          ]
+        },
+        {
+          "docs": {
+            "summary": "Returns teh value of the union property (if defined)."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 465
+          },
+          "name": "readUnionValue",
+          "returns": {
+            "type": {
+              "primitive": "number"
+            }
+          }
+        }
+      ],
+      "name": "Calculator",
+      "properties": [
+        {
+          "docs": {
+            "summary": "Returns the expression."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 453
+          },
+          "name": "expression",
+          "overrides": "hello.composition.CompositeOperation",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "A log of all operations."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 415
+          },
+          "name": "operationsLog",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "fqn": "hello.Value"
+              },
+              "kind": "array"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "A map of per operation name of all operations performed."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 410
+          },
+          "name": "operationsMap",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "collection": {
+                  "elementtype": {
+                    "fqn": "hello.Value"
+                  },
+                  "kind": "array"
+                }
+              },
+              "kind": "map"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "The current value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 405
+          },
+          "name": "curr",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "The maximum value allows in this calculator."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 420
+          },
+          "name": "maxValue",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "docs": {
+            "summary": "Example of a property that accepts a union of types."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 460
+          },
+          "name": "unionProperty",
+          "optional": true,
+          "type": {
+            "union": {
+              "types": [
+                {
+                  "fqn": "hello.Add"
+                },
+                {
+                  "fqn": "hello.Multiply"
+                },
+                {
+                  "fqn": "hello.Power"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "hello.CalculatorProps": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "summary": "Properties for Calculator."
+      },
+      "fqn": "hello.CalculatorProps",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 378
+      },
+      "name": "CalculatorProps",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 379
+          },
+          "name": "initialValue",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 380
+          },
+          "name": "maximumValue",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.DeprecatedClass": {
+      "assembly": "hello",
+      "docs": {
+        "deprecated": "a pretty boring class",
+        "stability": "deprecated"
+      },
+      "fqn": "hello.DeprecatedClass",
+      "initializer": {
+        "docs": {
+          "deprecated": "this constructor is \"just\" okay",
+          "stability": "deprecated"
+        },
+        "parameters": [
+          {
+            "name": "readonlyString",
+            "type": {
+              "primitive": "string"
+            }
+          },
+          {
+            "name": "mutableNumber",
+            "optional": true,
+            "type": {
+              "primitive": "number"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 693
+      },
+      "methods": [
+        {
+          "docs": {
+            "deprecated": "it was a bad idea",
+            "stability": "deprecated"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 704
+          },
+          "name": "method"
+        }
+      ],
+      "name": "DeprecatedClass",
+      "properties": [
+        {
+          "docs": {
+            "deprecated": "this is not always \"wazoo\", be ready to be disappointed",
+            "stability": "deprecated"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 695
+          },
+          "name": "readonlyProperty",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "docs": {
+            "deprecated": "shouldn't have been mutable",
+            "stability": "deprecated"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 697
+          },
+          "name": "mutableProperty",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.DeprecatedEnum": {
+      "assembly": "hello",
+      "docs": {
+        "deprecated": "your deprecated selection of bad options",
+        "stability": "deprecated"
+      },
+      "fqn": "hello.DeprecatedEnum",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 707
+      },
+      "members": [
+        {
+          "docs": {
+            "deprecated": "option A is not great",
+            "stability": "deprecated"
+          },
+          "name": "OPTION_A"
+        },
+        {
+          "docs": {
+            "deprecated": "option B is kinda bad, too",
+            "stability": "deprecated"
+          },
+          "name": "OPTION_B"
+        }
+      ],
+      "name": "DeprecatedEnum"
+    },
+    "hello.DeprecatedStruct": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "deprecated": "it just wraps a string",
+        "stability": "deprecated"
+      },
+      "fqn": "hello.DeprecatedStruct",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 681
+      },
+      "name": "DeprecatedStruct",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "deprecated": "well, yeah",
+            "stability": "deprecated"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 683
+          },
+          "name": "readonlyProperty",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.DocumentedClass": {
+      "assembly": "hello",
+      "docs": {
+        "remarks": "This is the meat of the TSDoc comment. It may contain\nmultiple lines and multiple paragraphs.\n\nMultiple paragraphs are separated by an empty line.",
+        "stability": "stable",
+        "summary": "Here's the first line of the TSDoc comment."
+      },
+      "fqn": "hello.DocumentedClass",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 500
+      },
+      "methods": [
+        {
+          "docs": {
+            "remarks": "This will print out a friendly greeting intended for\nthe indicated person.",
+            "returns": "A number that everyone knows very well",
+            "stability": "stable",
+            "summary": "Greet the indicated person."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 511
+          },
+          "name": "greet",
+          "parameters": [
+            {
+              "docs": {
+                "summary": "The person to be greeted."
+              },
+              "name": "greetee",
+              "optional": true,
+              "type": {
+                "fqn": "hello.Greetee"
+              }
+            }
+          ],
+          "returns": {
+            "type": {
+              "primitive": "number"
+            }
+          }
+        },
+        {
+          "docs": {
+            "stability": "experimental",
+            "summary": "Say ¡Hola!"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 521
+          },
+          "name": "hola"
+        }
+      ],
+      "name": "DocumentedClass"
+    },
+    "hello.EnumFromScopedModule": {
+      "assembly": "hello",
+      "docs": {
+        "summary": "Check that enums from \\@scoped packages can be references. See awslabs/jsii#138."
+      },
+      "fqn": "hello.EnumFromScopedModule",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 132
+      },
+      "members": [
+        {
+          "name": "VALUE1"
+        },
+        {
+          "name": "VALUE2"
+        }
+      ],
+      "name": "EnumFromScopedModule"
+    },
+    "hello.ExperimentalClass": {
+      "assembly": "hello",
+      "docs": {
+        "stability": "experimental"
+      },
+      "fqn": "hello.ExperimentalClass",
+      "initializer": {
+        "docs": {
+          "stability": "experimental"
+        },
+        "parameters": [
+          {
+            "name": "readonlyString",
+            "type": {
+              "primitive": "string"
+            }
+          },
+          {
+            "name": "mutableNumber",
+            "optional": true,
+            "type": {
+              "primitive": "number"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 624
+      },
+      "methods": [
+        {
+          "docs": {
+            "stability": "experimental"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 636
+          },
+          "name": "method"
+        }
+      ],
+      "name": "ExperimentalClass",
+      "properties": [
+        {
+          "docs": {
+            "stability": "experimental"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 626
+          },
+          "name": "readonlyProperty",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "docs": {
+            "stability": "experimental"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 628
+          },
+          "name": "mutableProperty",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.ExperimentalEnum": {
+      "assembly": "hello",
+      "docs": {
+        "stability": "experimental"
+      },
+      "fqn": "hello.ExperimentalEnum",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 639
+      },
+      "members": [
+        {
+          "docs": {
+            "stability": "experimental"
+          },
+          "name": "OPTION_A"
+        },
+        {
+          "docs": {
+            "stability": "experimental"
+          },
+          "name": "OPTION_B"
+        }
+      ],
+      "name": "ExperimentalEnum"
+    },
+    "hello.ExperimentalStruct": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "stability": "experimental"
+      },
+      "fqn": "hello.ExperimentalStruct",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 612
+      },
+      "name": "ExperimentalStruct",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "experimental"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 614
+          },
+          "name": "readonlyProperty",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.Goo": {
+      "assembly": "hello",
+      "datatype": true,
+      "fqn": "hello.Goo",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 5
+      },
+      "name": "Goo",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 6
+          },
+          "name": "foo",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.Greetee": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "summary": "These are some arguments you can pass to a method."
+      },
+      "fqn": "hello.Greetee",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 529
+      },
+      "name": "Greetee",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "default": "world",
+            "summary": "The name of the greetee."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 535
+          },
+          "name": "name",
+          "optional": true,
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.IBaseInterface": {
+      "assembly": "hello",
+      "fqn": "hello.IBaseInterface",
+      "interfaces": [
+        "hello.IVeryBaseInterface"
+      ],
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 34
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 35
+          },
+          "name": "bar"
+        }
+      ],
+      "name": "IBaseInterface"
+    },
+    "hello.IDeprecatedInterface": {
+      "assembly": "hello",
+      "docs": {
+        "deprecated": "useless interface",
+        "stability": "deprecated"
+      },
+      "fqn": "hello.IDeprecatedInterface",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 686
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "deprecated": "services no purpose",
+            "stability": "deprecated"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 690
+          },
+          "name": "method"
+        }
+      ],
+      "name": "IDeprecatedInterface",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "deprecated": "could be better",
+            "stability": "deprecated"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 688
+          },
+          "name": "mutableProperty",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.IDoublable": {
+      "assembly": "hello",
+      "docs": {
+        "summary": "The general contract for a concrete number."
+      },
+      "fqn": "hello.IDoublable",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 58
+      },
+      "name": "IDoublable",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 59
+          },
+          "name": "doubleValue",
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.IExperimentalInterface": {
+      "assembly": "hello",
+      "docs": {
+        "stability": "experimental"
+      },
+      "fqn": "hello.IExperimentalInterface",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 617
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "experimental"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 621
+          },
+          "name": "method"
+        }
+      ],
+      "name": "IExperimentalInterface",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "experimental"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 619
+          },
+          "name": "mutableProperty",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.IFriendlier": {
+      "assembly": "hello",
+      "docs": {
+        "summary": "Even friendlier classes can implement this interface."
+      },
+      "fqn": "hello.IFriendlier",
+      "interfaces": [
+        "hello.IFriendly"
+      ],
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 150
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Say farewell."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 160
+          },
+          "name": "farewell",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "returns": "A goodbye blessing.",
+            "summary": "Say goodbye."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 155
+          },
+          "name": "goodbye",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "IFriendlier"
+    },
+    "hello.IFriendly": {
+      "assembly": "hello",
+      "docs": {
+        "remarks": "These classes can be greeted with\na \"hello\" or \"goodbye\" blessing and they will respond back in a fun and friendly manner.",
+        "summary": "Applies to classes that are considered friendly."
+      },
+      "fqn": "hello.IFriendly",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 93
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "Say hello!"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 97
+          },
+          "name": "hello",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "IFriendly"
+    },
+    "hello.IFriendlyRandomGenerator": {
+      "assembly": "hello",
+      "fqn": "hello.IFriendlyRandomGenerator",
+      "interfaces": [
+        "hello.IRandomNumberGenerator",
+        "hello.IFriendly"
+      ],
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 174
+      },
+      "name": "IFriendlyRandomGenerator"
+    },
+    "hello.IJSII417Derived": {
+      "assembly": "hello",
+      "fqn": "hello.IJSII417Derived",
+      "interfaces": [
+        "hello.IJSII417PublicBaseOfBase"
+      ],
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 588
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 586
+          },
+          "name": "bar"
+        },
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 589
+          },
+          "name": "baz"
+        }
+      ],
+      "name": "IJSII417Derived",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 585
+          },
+          "name": "property",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.IJSII417PublicBaseOfBase": {
+      "assembly": "hello",
+      "fqn": "hello.IJSII417PublicBaseOfBase",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 581
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 582
+          },
+          "name": "foo"
+        }
+      ],
+      "name": "IJSII417PublicBaseOfBase",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 579
+          },
+          "name": "hasRoot",
+          "type": {
+            "primitive": "boolean"
+          }
+        }
+      ]
+    },
+    "hello.IJsii487External": {
+      "assembly": "hello",
+      "fqn": "hello.IJsii487External",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 596
+      },
+      "name": "IJsii487External"
+    },
+    "hello.IJsii487External2": {
+      "assembly": "hello",
+      "fqn": "hello.IJsii487External2",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 597
+      },
+      "name": "IJsii487External2"
+    },
+    "hello.IJsii496": {
+      "assembly": "hello",
+      "fqn": "hello.IJsii496",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 605
+      },
+      "name": "IJsii496"
+    },
+    "hello.IRandomNumberGenerator": {
+      "assembly": "hello",
+      "docs": {
+        "summary": "Generates random numbers."
+      },
+      "fqn": "hello.IRandomNumberGenerator",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 166
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "returns": "A random number.",
+            "summary": "Returns another random number."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 171
+          },
+          "name": "next",
+          "returns": {
+            "type": {
+              "primitive": "number"
+            }
+          }
+        }
+      ],
+      "name": "IRandomNumberGenerator"
+    },
+    "hello.IStableInterface": {
+      "assembly": "hello",
+      "docs": {
+        "stability": "stable"
+      },
+      "fqn": "hello.IStableInterface",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 652
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "stable"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 656
+          },
+          "name": "method"
+        }
+      ],
+      "name": "IStableInterface",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "stable"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 654
+          },
+          "name": "mutableProperty",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.IThreeLevelsInterface": {
+      "assembly": "hello",
+      "docs": {
+        "remarks": "Their presence validates that .NET/Java/jsii-reflect can track all fields\nfar enough up the tree.",
+        "summary": "Interface that inherits from packages 2 levels up the tree."
+      },
+      "fqn": "hello.IThreeLevelsInterface",
+      "interfaces": [
+        "hello.IBaseInterface"
+      ],
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 143
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 144
+          },
+          "name": "baz"
+        }
+      ],
+      "name": "IThreeLevelsInterface"
+    },
+    "hello.IVery": {
+      "assembly": "hello",
+      "fqn": "hello.IVery",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 13
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 14
+          },
+          "name": "hey",
+          "returns": {
+            "type": {
+              "primitive": "number"
+            }
+          }
+        },
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 15
+          },
+          "name": "hoo",
+          "parameters": [
+            {
+              "name": "a",
+              "type": {
+                "primitive": "number"
+              }
+            }
+          ],
+          "returns": {
+            "type": {
+              "primitive": "number"
+            }
+          }
+        }
+      ],
+      "name": "IVery"
+    },
+    "hello.IVeryBaseInterface": {
+      "assembly": "hello",
+      "fqn": "hello.IVeryBaseInterface",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 1
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 2
+          },
+          "name": "foo"
+        }
+      ],
+      "name": "IVeryBaseInterface"
+    },
+    "hello.JSII417Derived": {
+      "assembly": "hello",
+      "base": "hello.JSII417PublicBaseOfBase",
+      "fqn": "hello.JSII417Derived",
+      "initializer": {
+        "parameters": [
+          {
+            "name": "property",
+            "type": {
+              "primitive": "string"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 571
+      },
+      "methods": [
+        {
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 572
+          },
+          "name": "bar"
+        },
+        {
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 575
+          },
+          "name": "baz"
+        }
+      ],
+      "name": "JSII417Derived",
+      "properties": [
+        {
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 566
+          },
+          "name": "property",
+          "protected": true,
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.JSII417PublicBaseOfBase": {
+      "assembly": "hello",
+      "fqn": "hello.JSII417PublicBaseOfBase",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 559
+      },
+      "methods": [
+        {
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 560
+          },
+          "name": "makeInstance",
+          "returns": {
+            "type": {
+              "fqn": "hello.JSII417PublicBaseOfBase"
+            }
+          },
+          "static": true
+        },
+        {
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 563
+          },
+          "name": "foo"
+        }
+      ],
+      "name": "JSII417PublicBaseOfBase",
+      "properties": [
+        {
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 557
+          },
+          "name": "hasRoot",
+          "type": {
+            "primitive": "boolean"
+          }
+        }
+      ]
+    },
+    "hello.Jsii487Derived": {
+      "assembly": "hello",
+      "fqn": "hello.Jsii487Derived",
+      "initializer": {},
+      "interfaces": [
+        "hello.IJsii487External2",
+        "hello.IJsii487External"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 599
+      },
+      "name": "Jsii487Derived"
+    },
+    "hello.Jsii496Derived": {
+      "assembly": "hello",
+      "fqn": "hello.Jsii496Derived",
+      "initializer": {},
+      "interfaces": [
+        "hello.IJsii496"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 607
+      },
+      "name": "Jsii496Derived"
+    },
+    "hello.Multiply": {
+      "assembly": "hello",
+      "base": "hello.BinaryOperation",
+      "docs": {
+        "summary": "The \"*\" binary operation."
+      },
+      "fqn": "hello.Multiply",
+      "initializer": {
+        "docs": {
+          "summary": "Creates a BinaryOperation."
+        },
+        "parameters": [
+          {
+            "docs": {
+              "summary": "Left-hand side operand."
+            },
+            "name": "lhs",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          },
+          {
+            "docs": {
+              "summary": "Right-hand side operand."
+            },
+            "name": "rhs",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          }
+        ]
+      },
+      "interfaces": [
+        "hello.IFriendlier",
+        "hello.IRandomNumberGenerator"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 212
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "Say farewell."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 225
+          },
+          "name": "farewell",
+          "overrides": "hello.IFriendlier",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "Say goodbye."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 221
+          },
+          "name": "goodbye",
+          "overrides": "hello.IFriendlier",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "Returns another random number."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 229
+          },
+          "name": "next",
+          "overrides": "hello.IRandomNumberGenerator",
+          "returns": {
+            "type": {
+              "primitive": "number"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "String representation of the value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 217
+          },
+          "name": "toString",
+          "overrides": "hello.Operation",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "Multiply",
+      "properties": [
+        {
+          "docs": {
+            "summary": "The value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 213
+          },
+          "name": "value",
+          "overrides": "hello.Value",
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.MyFirstStruct": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "summary": "This is the first struct we have created in jsii."
+      },
+      "fqn": "hello.MyFirstStruct",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 103
+      },
+      "name": "MyFirstStruct",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "An awesome number value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 112
+          },
+          "name": "anumber",
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "A string value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 107
+          },
+          "name": "astring",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 113
+          },
+          "name": "firstOptional",
+          "optional": true,
+          "type": {
+            "collection": {
+              "elementtype": {
+                "primitive": "string"
+              },
+              "kind": "array"
+            }
+          }
+        }
+      ]
+    },
+    "hello.Negate": {
+      "assembly": "hello",
+      "base": "hello.UnaryOperation",
+      "docs": {
+        "summary": "The negation operation (\"-value\")."
+      },
+      "fqn": "hello.Negate",
+      "initializer": {
+        "parameters": [
+          {
+            "name": "operand",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          }
+        ]
+      },
+      "interfaces": [
+        "hello.IFriendlier"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 246
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "Say farewell."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 263
+          },
+          "name": "farewell",
+          "overrides": "hello.IFriendlier",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "Say goodbye."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 259
+          },
+          "name": "goodbye",
+          "overrides": "hello.IFriendlier",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "Say hello!"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 255
+          },
+          "name": "hello",
+          "overrides": "hello.IFriendly",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "String representation of the value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 251
+          },
+          "name": "toString",
+          "overrides": "hello.Operation",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "Negate",
+      "properties": [
+        {
+          "docs": {
+            "summary": "The value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 247
+          },
+          "name": "value",
+          "overrides": "hello.Value",
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.Number": {
+      "assembly": "hello",
+      "base": "hello.Value",
+      "docs": {
+        "summary": "Represents a concrete number."
+      },
+      "fqn": "hello.Number",
+      "initializer": {
+        "docs": {
+          "summary": "Creates a Number object."
+        },
+        "parameters": [
+          {
+            "docs": {
+              "summary": "The number."
+            },
+            "name": "value",
+            "type": {
+              "primitive": "number"
+            }
+          }
+        ]
+      },
+      "interfaces": [
+        "hello.IDoublable"
+      ],
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 65
+      },
+      "name": "Number",
+      "properties": [
+        {
+          "docs": {
+            "summary": "The number multiplied by 2."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 77
+          },
+          "name": "doubleValue",
+          "overrides": "hello.IDoublable",
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "docs": {
+            "summary": "The number."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 70
+          },
+          "name": "value",
+          "overrides": "hello.Value",
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.Old": {
+      "assembly": "hello",
+      "docs": {
+        "deprecated": "Use the new class",
+        "stability": "deprecated",
+        "summary": "Old class."
+      },
+      "fqn": "hello.Old",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 543
+      },
+      "methods": [
+        {
+          "docs": {
+            "stability": "deprecated",
+            "summary": "Doo wop that thing."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 547
+          },
+          "name": "doAThing"
+        }
+      ],
+      "name": "Old"
+    },
+    "hello.Operation": {
+      "abstract": true,
+      "assembly": "hello",
+      "base": "hello.Value",
+      "docs": {
+        "summary": "Represents an operation on values."
+      },
+      "fqn": "hello.Operation",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 85
+      },
+      "methods": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "String representation of the value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 86
+          },
+          "name": "toString",
+          "overrides": "hello.Value",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "Operation"
+    },
+    "hello.Power": {
+      "assembly": "hello",
+      "base": "hello.composition.CompositeOperation",
+      "docs": {
+        "summary": "The power operation."
+      },
+      "fqn": "hello.Power",
+      "initializer": {
+        "docs": {
+          "summary": "Creates a Power operation."
+        },
+        "parameters": [
+          {
+            "docs": {
+              "summary": "The base of the power."
+            },
+            "name": "base",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          },
+          {
+            "docs": {
+              "summary": "The number of times to multiply."
+            },
+            "name": "pow",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 355
+      },
+      "name": "Power",
+      "properties": [
+        {
+          "docs": {
+            "summary": "The base of the power."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 362
+          },
+          "name": "base",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "The expression that this operation consists of. Must be implemented by derived classes."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 366
+          },
+          "name": "expression",
+          "overrides": "hello.composition.CompositeOperation",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "The number of times to multiply."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 362
+          },
+          "name": "pow",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        }
+      ]
+    },
+    "hello.StableClass": {
+      "assembly": "hello",
+      "docs": {
+        "stability": "stable"
+      },
+      "fqn": "hello.StableClass",
+      "initializer": {
+        "docs": {
+          "stability": "stable"
+        },
+        "parameters": [
+          {
+            "name": "readonlyString",
+            "type": {
+              "primitive": "string"
+            }
+          },
+          {
+            "name": "mutableNumber",
+            "optional": true,
+            "type": {
+              "primitive": "number"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 659
+      },
+      "methods": [
+        {
+          "docs": {
+            "stability": "stable"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 670
+          },
+          "name": "method"
+        }
+      ],
+      "name": "StableClass",
+      "properties": [
+        {
+          "docs": {
+            "stability": "stable"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 661
+          },
+          "name": "readonlyProperty",
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "docs": {
+            "stability": "stable"
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 663
+          },
+          "name": "mutableProperty",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.StableEnum": {
+      "assembly": "hello",
+      "docs": {
+        "stability": "stable"
+      },
+      "fqn": "hello.StableEnum",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 673
+      },
+      "members": [
+        {
+          "docs": {
+            "stability": "stable"
+          },
+          "name": "OPTION_A"
+        },
+        {
+          "docs": {
+            "stability": "stable"
+          },
+          "name": "OPTION_B"
+        }
+      ],
+      "name": "StableEnum"
+    },
+    "hello.StableStruct": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "stability": "stable"
+      },
+      "fqn": "hello.StableStruct",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 647
+      },
+      "name": "StableStruct",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "stability": "stable"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 649
+          },
+          "name": "readonlyProperty",
+          "type": {
+            "primitive": "string"
+          }
+        }
+      ]
+    },
+    "hello.StructWithOnlyOptionals": {
+      "assembly": "hello",
+      "datatype": true,
+      "docs": {
+        "summary": "This is a struct with only optional properties."
+      },
+      "fqn": "hello.StructWithOnlyOptionals",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 119
+      },
+      "name": "StructWithOnlyOptionals",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "The first optional!"
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 123
+          },
+          "name": "optional1",
+          "optional": true,
+          "type": {
+            "primitive": "string"
+          }
+        },
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 124
+          },
+          "name": "optional2",
+          "optional": true,
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 125
+          },
+          "name": "optional3",
+          "optional": true,
+          "type": {
+            "primitive": "boolean"
+          }
+        }
+      ]
+    },
+    "hello.Sum": {
+      "assembly": "hello",
+      "base": "hello.composition.CompositeOperation",
+      "docs": {
+        "summary": "An operation that sums multiple values."
+      },
+      "fqn": "hello.Sum",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 330
+      },
+      "name": "Sum",
+      "properties": [
+        {
+          "docs": {
+            "summary": "The expression that this operation consists of. Must be implemented by derived classes."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 343
+          },
+          "name": "expression",
+          "overrides": "hello.composition.CompositeOperation",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "The parts to sum."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 335
+          },
+          "name": "parts",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "fqn": "hello.Value"
+              },
+              "kind": "array"
+            }
+          }
+        }
+      ]
+    },
+    "hello.UnaryOperation": {
+      "abstract": true,
+      "assembly": "hello",
+      "base": "hello.Operation",
+      "docs": {
+        "summary": "An operation on a single operand."
+      },
+      "fqn": "hello.UnaryOperation",
+      "initializer": {
+        "parameters": [
+          {
+            "name": "operand",
+            "type": {
+              "fqn": "hello.Value"
+            }
+          }
+        ]
+      },
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 237
+      },
+      "name": "UnaryOperation",
+      "properties": [
+        {
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 238
+          },
+          "name": "operand",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        }
+      ]
+    },
+    "hello.Value": {
+      "abstract": true,
+      "assembly": "hello",
+      "base": "hello.Base",
+      "docs": {
+        "summary": "Abstract class which represents a numeric value."
+      },
+      "fqn": "hello.Value",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 41
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "String representation of the value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 50
+          },
+          "name": "toString",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "Value",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "The value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 45
+          },
+          "name": "value",
+          "type": {
+            "primitive": "number"
+          }
+        }
+      ]
+    },
+    "hello.VeryBaseProps": {
+      "assembly": "hello",
+      "datatype": true,
+      "fqn": "hello.VeryBaseProps",
+      "kind": "interface",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 9
+      },
+      "name": "VeryBaseProps",
+      "properties": [
+        {
+          "abstract": true,
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 10
+          },
+          "name": "foo",
+          "type": {
+            "fqn": "hello.IVery"
+          }
+        }
+      ]
+    },
+    "hello.composition.CompositeOperation": {
+      "abstract": true,
+      "assembly": "hello",
+      "base": "hello.Operation",
+      "docs": {
+        "summary": "Abstract operation composed from an expression of other operations."
+      },
+      "fqn": "hello.composition.CompositeOperation",
+      "initializer": {},
+      "kind": "class",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 275
+      },
+      "methods": [
+        {
+          "docs": {
+            "summary": "String representation of the value."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 301
+          },
+          "name": "toString",
+          "overrides": "hello.Operation",
+          "returns": {
+            "type": {
+              "primitive": "string"
+            }
+          }
+        }
+      ],
+      "name": "CompositeOperation",
+      "namespace": "composition",
+      "properties": [
+        {
+          "abstract": true,
+          "docs": {
+            "summary": "The expression that this operation consists of. Must be implemented by derived classes."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 299
+          },
+          "name": "expression",
+          "type": {
+            "fqn": "hello.Value"
+          }
+        },
+        {
+          "docs": {
+            "summary": "The value."
+          },
+          "immutable": true,
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 291
+          },
+          "name": "value",
+          "overrides": "hello.Value",
+          "type": {
+            "primitive": "number"
+          }
+        },
+        {
+          "docs": {
+            "summary": "A set of postfixes to include in a decorated .toString()."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 289
+          },
+          "name": "decorationPostfixes",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "primitive": "string"
+              },
+              "kind": "array"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "A set of prefixes to include in a decorated .toString()."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 284
+          },
+          "name": "decorationPrefixes",
+          "type": {
+            "collection": {
+              "elementtype": {
+                "primitive": "string"
+              },
+              "kind": "array"
+            }
+          }
+        },
+        {
+          "docs": {
+            "summary": "The .toString() style."
+          },
+          "locationInModule": {
+            "filename": "lib/index.ts",
+            "line": 279
+          },
+          "name": "stringStyle",
+          "type": {
+            "fqn": "hello.composition.CompositeOperation.CompositionStringStyle"
+          }
+        }
+      ]
+    },
+    "hello.composition.CompositeOperation.CompositionStringStyle": {
+      "assembly": "hello",
+      "docs": {
+        "summary": "Style of .toString() output for CompositeOperation."
+      },
+      "fqn": "hello.composition.CompositeOperation.CompositionStringStyle",
+      "kind": "enum",
+      "locationInModule": {
+        "filename": "lib/index.ts",
+        "line": 317
+      },
+      "members": [
+        {
+          "docs": {
+            "summary": "Normal string expression."
+          },
+          "name": "NORMAL"
+        },
+        {
+          "docs": {
+            "summary": "Decorated string expression."
+          },
+          "name": "DECORATED"
+        }
+      ],
+      "name": "CompositionStringStyle",
+      "namespace": "composition.CompositeOperation"
+    }
+  },
+  "version": "0.1.0",
+  "fingerprint": "umm5ouaoxtYxlexfwY9AG71iVlh3YwXNO1UVoOesZGg="
+}

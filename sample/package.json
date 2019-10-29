@@ -1,0 +1,43 @@
+{
+  "name": "hello",
+  "version": "0.1.0",
+  "description": "Hello Jsii",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "build": "jsii",
+    "build:watch": "jsii -w",
+    "package": "jsii-pacmak -c"
+  },
+  "jsii": {
+    "outdir": "dist",
+    "targets": {
+      "java": {
+        "package": "org.yanex.hello",
+        "maven": {
+          "groupId": "org.yanex.hello",
+          "artifactId": "hello-jsii"
+        }
+      },
+      "kotlin": {
+        "package": "org.yanex.hello",
+        "maven": {
+          "groupId": "org.yanex.hello",
+          "artifactId": "hello-jsii"
+        }
+      }
+    }
+  },
+  "keywords": [],
+  "author": {
+    "name": "Yan Zhulanow"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "jsii": "file:../packages/jsii",
+    "jsii-pacmak": "file:../packages/jsii-pacmak"
+  },
+  "repository": {
+    "url": "https://github.com/yanex/hello-jsii.git"
+  }
+}

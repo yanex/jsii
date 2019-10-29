@@ -19,6 +19,10 @@ export function typeSpec(x: reflect.Type): spec.Type {
   return (x as any).spec;
 }
 
+export function typeReferenceSpec(x: reflect.TypeReference): spec.TypeReference {
+  return (x as any).spec;
+}
+
 export function docsSpec(x: reflect.Docs): spec.Docs {
   return (x as any).spec;
 }

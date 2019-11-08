@@ -107,6 +107,25 @@ directories are merged into a single .zip file that is later on used in our
 CI/CD publishing tasks. Each `<lang>` directory is published to the respective
 package repository.
 
+## Using an IDE
+
+You can develop jsii in [Visual Studio Code](https://code.visualstudio.com/), [WebStorm](https://www.jetbrains.com/webstorm/) or any text editor of choice.
+
+If you use Visual Studio Code, it might be useful to install the ESLint extension. By default, ESLint does not validate TypeScript files. To fix it, add the `typescript` to the validation list in the extension preferences:
+
+1. Extensions → ESLint → click on the "Configure Extension Settings" gear menu item.
+2. Click on the "Edit in settings.json" hyperlink.
+3. Modify the `eslint.validate` configuration property:
+
+```
+"eslint.validate": [
+    ...
+    "typescript"
+]
+```
+
+In case if your IDE fails to run lint checks on the whole project, open individual package directories directly (e.g. `packages/jsii-pacmak`).
+
 ## Implementing Language Bindings
 
 jsii language bindings consist of two main components:

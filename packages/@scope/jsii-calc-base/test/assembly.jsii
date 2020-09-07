@@ -30,9 +30,9 @@
         "kotlin": {
           "maven": {
             "artifactId": "calculator-base-of-base",
-            "groupId": "software.amazon.jsii.tests"
+            "groupId": "software.amazon.jsii.tests.kotlin"
           },
-          "package": "software.amazon.jsii.tests.calculator.baseofbase"
+          "package": "software.amazon.jsii.tests.kotlin.calculator.baseofbase"
         },
         "python": {
           "distName": "scope.jsii-calc-base-of-base",
@@ -70,9 +70,9 @@
     "kotlin": {
       "maven": {
         "artifactId": "calculator-base",
-        "groupId": "software.amazon.jsii.tests"
+        "groupId": "software.amazon.jsii.tests.kotlin"
       },
-      "package": "software.amazon.jsii.tests.calculator.base"
+      "package": "software.amazon.jsii.tests.kotlin.calculator.base"
     },
     "python": {
       "distName": "scope.jsii-calc-base",
@@ -165,5 +165,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "ttHhQ5EzgjW0lybCNSKOfqilJ04kp4VK3arcpRl3rBM="
+  "fingerprint": "JDqlVPOK+xB+LLDJ4cvf9/Q6Go9w/Hh8emGi+Oih/b8="
 }

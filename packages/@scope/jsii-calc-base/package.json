@@ -54,9 +54,9 @@
         }
       },
       "kotlin": {
-        "package": "software.amazon.jsii.tests.calculator.base",
+        "package": "software.amazon.jsii.tests.kotlin.calculator.base",
         "maven": {
-          "groupId": "software.amazon.jsii.tests",
+          "groupId": "software.amazon.jsii.tests.kotlin",
           "artifactId": "calculator-base"
         }
       },

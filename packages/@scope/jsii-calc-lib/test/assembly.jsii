@@ -31,9 +31,9 @@
         "kotlin": {
           "maven": {
             "artifactId": "calculator-base",
-            "groupId": "software.amazon.jsii.tests"
+            "groupId": "software.amazon.jsii.tests.kotlin"
           },
-          "package": "software.amazon.jsii.tests.calculator.base"
+          "package": "software.amazon.jsii.tests.kotlin.calculator.base"
         },
         "python": {
           "distName": "scope.jsii-calc-base",
@@ -60,9 +60,9 @@
         "kotlin": {
           "maven": {
             "artifactId": "calculator-base-of-base",
-            "groupId": "software.amazon.jsii.tests"
+            "groupId": "software.amazon.jsii.tests.kotlin"
           },
-          "package": "software.amazon.jsii.tests.calculator.baseofbase"
+          "package": "software.amazon.jsii.tests.kotlin.calculator.baseofbase"
         },
         "python": {
           "distName": "scope.jsii-calc-base-of-base",
@@ -125,10 +125,10 @@
     "kotlin": {
       "maven": {
         "artifactId": "calculator-lib",
-        "groupId": "software.amazon.jsii.tests",
+        "groupId": "software.amazon.jsii.tests.kotlin",
         "versionSuffix": ".DEVPREVIEW"
       },
-      "package": "software.amazon.jsii.tests.calculator.lib"
+      "package": "software.amazon.jsii.tests.kotlin.calculator.lib"
     },
     "python": {
       "distName": "scope.jsii-calc-lib",
@@ -690,5 +690,5 @@
     }
   },
   "version": "0.0.0",
-  "fingerprint": "w6/8Kda6/JitSbpMK3LGPK5JGRxJ50gflR5S4sUEHKk="
+  "fingerprint": "7V8m3TSkbLO9CdTX1cgQNNO5tJBHFlS5XdQOqG07EcE="
 }

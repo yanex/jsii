@@ -8,16 +8,18 @@ repositories {
     int index = 0
     while (project.hasProperty("customRepo" + index)) {
         maven { url project.property("customRepo" + index) }
+        System.out.println(project.property("customRepo" + index))
         index += 1
     }
     mavenCentral()
     maven { url "https://dl.bintray.com/kotlin/dokka" }
 }
 dependencies {
-    api "software.amazon.jsii:jsii-runtime:0.21.1"
+    api "software.amazon.jsii:jsii-runtime:0.0.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     implementation "javax.annotation:javax.annotation-api:1.3.2"
-    api "software.amazon.jsii.tests:calculator-base:0.21.1"
+    api "software.amazon.jsii.tests.kotlin:calculator-base:0.0.0"
+    api "software.amazon.jsii.tests.kotlin:calculator-base-of-base:0.0.0"
 }
 dokka {
     outputFormat = "html"
@@ -40,9 +42,9 @@ publishing {
     }
     publications {
         maven(MavenPublication) {
-            groupId = "software.amazon.jsii.tests"
+            groupId = "software.amazon.jsii.tests.kotlin"
             artifactId = "calculator-lib"
-            version = "0.21.1.DEVPREVIEW"
+            version = "0.0.0.DEVPREVIEW"
 
             from components.kotlin
             artifact sourceJar

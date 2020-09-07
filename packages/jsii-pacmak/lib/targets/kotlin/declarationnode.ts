@@ -1,11 +1,22 @@
-import { Assembly, Type } from 'jsii-reflect';
+import { Assembly, Type, Submodule } from 'jsii-reflect';
 
 export class DeclarationNode {
   public static of(assembly: Assembly): DeclarationNode {
     const tree = new DeclarationNode('');
-    for (const type of assembly.types) {
+
+    function registerType(type: Type) {
       tree.register(type, DeclarationNode.getTypeName(type).split('.'));
     }
+
+    assembly.types.forEach(registerType);
+
+    function registerSubmodule(submodule: Submodule) {
+      submodule.types.forEach(registerType);
+      submodule.submodules.forEach(registerSubmodule);
+    }
+
+    assembly.submodules.forEach(registerSubmodule);
+
     return tree;
   }
 

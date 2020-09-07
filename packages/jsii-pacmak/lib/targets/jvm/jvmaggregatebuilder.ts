@@ -122,7 +122,7 @@ export abstract class JvmAggregateBuilder extends AggregateBuilder {
   }
 
   /**
-   * Looks up the `jsii-java-runtime` package from the local repository.
+   * Looks up the `@jsii/java-runtime` package from the local repository.
    * If it contains a "maven-repo" directory, it will be added as a local maven repo
    * so when we build locally, we build against it and not against the one published
    * to Maven Central.
@@ -130,7 +130,7 @@ export abstract class JvmAggregateBuilder extends AggregateBuilder {
   private findJavaRuntimeLocalRepository() {
     try {
       // eslint-disable-next-line @typescript-eslint/no-var-requires,@typescript-eslint/no-require-imports,import/no-extraneous-dependencies
-      const javaRuntime = require('jsii-java-runtime');
+      const javaRuntime = require('@jsii/java-runtime');
       return javaRuntime.repository;
     } catch {
       return undefined;
@@ -141,8 +141,10 @@ export abstract class JvmAggregateBuilder extends AggregateBuilder {
    * Return the subdirectory of the output directory where the artifacts for this particular package are produced
    */
   private moduleArtifactsSubdir(module: JsiiModule) {
-    const groupId = module.assembly.targets!.java!.maven.groupId;
-    const artifactId = module.assembly.targets!.java!.maven.artifactId;
+    const targets = module.assembly.targets!;
+    const target = targets[this.targetName]!;
+    const groupId = target.maven.groupId;
+    const artifactId = target.maven.artifactId;
     return `${groupId.replace(/\./g, '/')}/${artifactId}`;
   }
 }
